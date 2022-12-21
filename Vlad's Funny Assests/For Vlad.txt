@@ -1,0 +1,4 @@
+Vlad this folder is for u
+basically put all ur images and stuff that you've made for the game in this folder
+just make sure that each time you are commiting, the stuff in total are under a 100mb
+use this folder like google drive and send me images for the game here, also remember to commit each time
