@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D Rb;
     public Animator animator;
 
+    public AudioSource walkingSound;
 
     Vector2 movement;
 
@@ -20,6 +21,18 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("Horizontal", movement.x);
         animator.SetFloat("Vertical", movement.y);
         animator.SetFloat("Speed", movement.sqrMagnitude);
+
+        if (movement.x != 0 || movement.y != 0)
+        {
+            if (!walkingSound.isPlaying)
+            {
+                walkingSound.Play();
+            }
+        }
+        else
+        {
+            walkingSound.Stop();
+        }
     }
 
     void FixedUpdate()
