@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: New_Piskel-1.png_7
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: 1b9b8735f2ca9c546b5e38ad13a856fe, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 867daf6aeef72a6449effda708e11e22, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
