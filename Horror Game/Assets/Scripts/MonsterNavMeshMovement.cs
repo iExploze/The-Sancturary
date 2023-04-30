@@ -34,18 +34,27 @@ public class MonsterNavMeshMovement : MonoBehaviour
         if (distanceToPlayer > jumpscareDistanceThreshold)
         {
             Vector2 direction = (player.transform.position - transform.position).normalized;
-            float horizontalDistance = Mathf.Abs(player.transform.position.x - transform.position.x);
-            float verticalDistance = Mathf.Abs(player.transform.position.y - transform.position.y);
+float horizontalDistance = Mathf.Abs(player.transform.position.x - transform.position.x);
+float verticalDistance = Mathf.Abs(player.transform.position.y - transform.position.y);
 
-            Vector3 horizontalDestination = new Vector3(transform.position.x + direction.x, transform.position.y, transform.position.z);
-            Vector3 verticalDestination = new Vector3(transform.position.x, transform.position.y + direction.y, transform.position.z);
+int xSign = Mathf.RoundToInt(Mathf.Sign(direction.x));
+int ySign = Mathf.RoundToInt(Mathf.Sign(direction.y));
 
-            float t = (horizontalDistance - verticalDistance) / (horizontalDistance + verticalDistance);
-            t = Mathf.Clamp01((t + 1) / 2); // Remap t from [-1, 1] to [0, 1]
+Vector3 horizontalDestination = new Vector3(Mathf.Round(transform.position.x) + xSign, Mathf.Round(transform.position.y), transform.position.z);
+Vector3 verticalDestination = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y) + ySign, transform.position.z);
 
-            Vector3 destination = Vector3.Lerp(verticalDestination, horizontalDestination, t);
+Vector3 destination;
 
-            agent.SetDestination(destination);
+if (horizontalDistance > verticalDistance)
+{
+    destination = horizontalDestination;
+}
+else
+{
+    destination = verticalDestination;
+}
+
+agent.SetDestination(destination);
 
             Vector2 velocity = agent.velocity;
             animator.SetFloat("Horizontal", velocity.x);
