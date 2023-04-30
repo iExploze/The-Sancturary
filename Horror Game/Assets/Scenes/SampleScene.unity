@@ -262,11 +262,11 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 146679723}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 227f34809cc5ef34db1e9331b469b04e, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: cb55a50453dc3b2459245565d402b0da, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
-  m_TargetTexture: {fileID: 8400000, guid: c287e747783869346b73c8e141588650, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: b5c7a3874f20ac745b79fcb5427e3f06, type: 2}
   m_TimeReference: 0
   m_TargetMaterialRenderer: {fileID: 0}
   m_TargetMaterialProperty: <noninit>
@@ -520,7 +520,7 @@ Animator:
   m_GameObject: {fileID: 421837592}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a6bea8c39f5764144962c504d60b4ad2, type: 2}
+  m_Controller: {fileID: 9100000, guid: cde805388f5bf764c86c8c65f7a27bc8, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -611,7 +611,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 421837592}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.4577, y: 4.361, z: -1}
+  m_LocalPosition: {x: -4.48, y: 4.05, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2647,7 +2647,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 8400000, guid: c287e747783869346b73c8e141588650, type: 2}
+  m_Texture: {fileID: 8400000, guid: b5c7a3874f20ac745b79fcb5427e3f06, type: 2}
   m_UVRect:
     serializedVersion: 2
     x: 0
