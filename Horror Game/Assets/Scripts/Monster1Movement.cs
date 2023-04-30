@@ -12,6 +12,8 @@ public class Monster1Movement : MonoBehaviour
     public float jumpscareDistanceThreshold = 1f;
     public float MonsterSpeed = 2;
 
+    public float JumpscareOffsety = 1;
+
     private Rigidbody2D monsterRb;
     private Animator animator; // Reference to the Animator component
 
@@ -34,6 +36,7 @@ public class Monster1Movement : MonoBehaviour
         if (player != null)
         {
             Vector2 direction = (Vector2)player.transform.position - (Vector2)transform.position;
+            direction = new Vector2(direction.x, direction.y+JumpscareOffsety);
             direction.Normalize();
 
             // Restrict diagonal movement by setting one of the components to zero
@@ -58,7 +61,9 @@ public class Monster1Movement : MonoBehaviour
 
     void CheckForJumpscare()
     {
-        float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
+        float distanceToPlayer = Vector2.Distance(new Vector2(transform.position.x, 
+        transform.position.y-JumpscareOffsety), 
+        player.transform.position);
         if (distanceToPlayer <= jumpscareDistanceThreshold)
         {
             // Trigger the jumpscare video
