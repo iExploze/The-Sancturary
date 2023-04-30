@@ -15,8 +15,21 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetAxisRaw("Horizontal") != 0f)
+    {
         movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = 0f;
+    }
+    else if (Input.GetAxisRaw("Vertical") != 0f)
+    {
         movement.y = Input.GetAxisRaw("Vertical");
+        movement.x = 0f;
+    }
+    else
+    {
+        movement.x = 0f;
+        movement.y = 0f;
+    }
 
         animator.SetFloat("Horizontal", movement.x);
         animator.SetFloat("Vertical", movement.y);
