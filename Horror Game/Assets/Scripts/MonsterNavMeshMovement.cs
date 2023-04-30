@@ -33,28 +33,7 @@ public class MonsterNavMeshMovement : MonoBehaviour
 
         if (distanceToPlayer > jumpscareDistanceThreshold)
         {
-            Vector2 direction = (player.transform.position - transform.position).normalized;
-float horizontalDistance = Mathf.Abs(player.transform.position.x - transform.position.x);
-float verticalDistance = Mathf.Abs(player.transform.position.y - transform.position.y);
-
-int xSign = Mathf.RoundToInt(Mathf.Sign(direction.x));
-int ySign = Mathf.RoundToInt(Mathf.Sign(direction.y));
-
-Vector3 horizontalDestination = new Vector3(Mathf.Round(transform.position.x) + xSign, Mathf.Round(transform.position.y), transform.position.z);
-Vector3 verticalDestination = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y) + ySign, transform.position.z);
-
-Vector3 destination;
-
-if (horizontalDistance > verticalDistance)
-{
-    destination = horizontalDestination;
-}
-else
-{
-    destination = verticalDestination;
-}
-
-agent.SetDestination(destination);
+            agent.SetDestination(player.transform.position);
 
             Vector2 velocity = agent.velocity;
             animator.SetFloat("Horizontal", velocity.x);
