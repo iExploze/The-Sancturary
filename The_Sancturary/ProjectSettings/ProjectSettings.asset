@@ -3,7 +3,7 @@
 --- !u!129 &1
 PlayerSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 23
+  serializedVersion: 24
   productGUID: 09ebebd58d1a7a640972839ba6ef1ac9
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
@@ -177,10 +177,10 @@ PlayerSettings:
   StripUnusedMeshComponents: 0
   VertexChannelCompressionMask: 4054
   iPhoneSdkVersion: 988
-  iOSTargetOSVersionString: 11.0
+  iOSTargetOSVersionString: 12.0
   tvOSSdkVersion: 0
   tvOSRequireExtendedGameController: 0
-  tvOSTargetOSVersionString: 11.0
+  tvOSTargetOSVersionString: 12.0
   uIPrerenderedIcon: 0
   uIRequiresPersistentWiFi: 0
   uIRequiresFullScreen: 1
@@ -419,7 +419,6 @@ PlayerSettings:
   switchReleaseVersion: 0
   switchDisplayVersion: 1.0.0
   switchStartupUserAccount: 0
-  switchTouchScreenUsage: 0
   switchSupportedLanguagesMask: 0
   switchLogoType: 0
   switchApplicationErrorCodeCategory: 
@@ -461,6 +460,7 @@ PlayerSettings:
   switchNativeFsCacheSize: 32
   switchIsHoldTypeHorizontal: 0
   switchSupportedNpadCount: 8
+  switchEnableTouchScreen: 1
   switchSocketConfigEnabled: 0
   switchTcpInitialSendBufferSize: 32
   switchTcpInitialReceiveBufferSize: 64
@@ -580,7 +580,21 @@ PlayerSettings:
   scriptingBackend:
     Standalone: 0
   il2cppCompilerConfiguration: {}
-  managedStrippingLevel: {}
+  managedStrippingLevel:
+    EmbeddedLinux: 1
+    GameCoreScarlett: 1
+    GameCoreXboxOne: 1
+    Lumin: 1
+    Nintendo Switch: 1
+    PS4: 1
+    PS5: 1
+    Stadia: 1
+    Standalone: 1
+    WebGL: 1
+    Windows Store Apps: 1
+    XboxOne: 1
+    iPhone: 1
+    tvOS: 1
   incrementalIl2cppBuild: {}
   suppressCommonWarnings: 1
   allowUnsafeCode: 0
@@ -650,7 +664,13 @@ PlayerSettings:
   XboxOneOverrideIdentityName: 
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
-  cloudServicesEnabled: {}
+  cloudServicesEnabled:
+    Build: 0
+    Collab: 0
+    Game Performance: 0
+    Purchasing: 0
+    UDP: 0
+    Unity Ads: 0
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -665,11 +685,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 
+  cloudProjectId: 4b603d5e-823f-4fea-b123-7dbc6683b8e1
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: 'Horror Game '
+  organizationId: iexplozed
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 
