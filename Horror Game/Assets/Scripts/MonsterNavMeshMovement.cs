@@ -37,16 +37,13 @@ public class MonsterNavMeshMovement : MonoBehaviour
             float horizontalDistance = Mathf.Abs(player.transform.position.x - transform.position.x);
             float verticalDistance = Mathf.Abs(player.transform.position.y - transform.position.y);
 
-            Vector3 destination;
+            Vector3 horizontalDestination = new Vector3(transform.position.x + direction.x, transform.position.y, transform.position.z);
+            Vector3 verticalDestination = new Vector3(transform.position.x, transform.position.y + direction.y, transform.position.z);
 
-            if (horizontalDistance > verticalDistance)
-            {
-                destination = new Vector3(player.transform.position.x, transform.position.y, transform.position.z);
-            }
-            else
-            {
-                destination = new Vector3(transform.position.x, player.transform.position.y, transform.position.z);
-            }
+            float t = (horizontalDistance - verticalDistance) / (horizontalDistance + verticalDistance);
+            t = Mathf.Clamp01((t + 1) / 2); // Remap t from [-1, 1] to [0, 1]
+
+            Vector3 destination = Vector3.Lerp(verticalDestination, horizontalDestination, t);
 
             agent.SetDestination(destination);
 
