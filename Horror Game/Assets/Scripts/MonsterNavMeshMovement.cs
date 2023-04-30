@@ -1,81 +1,78 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
 public class MonsterNavMeshMovement : MonoBehaviour
 {
     public GameObject player;
-    public float chaseDistanceThreshold = 5f;
-    public float jumpscareDistanceThreshold = 1f;
-
     public Canvas jumpscareCanvas;
     public VideoPlayer jumpscareVideo;
+    public GameObject monsterSprite;
+    public float jumpscareDistanceThreshold = 1f;
 
-    private NavMeshAgent agent;
+    private UnityEngine.AI.NavMeshAgent agent;
     private Animator animator;
 
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
-        jumpscareCanvas.GetComponent<CanvasGroup>().alpha = 0; // Hide the jumpscare video at the start
+        agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        animator = monsterSprite.GetComponent<Animator>();
+        jumpscareCanvas.GetComponent<CanvasGroup>().alpha = 0;
+
+        // Adjust the NavMeshAgent2D parameters for smoother movement
+        agent.acceleration = 20f;
+        agent.angularSpeed = 600f;
+        agent.autoBraking = false;
     }
 
     void Update()
     {
-        if (player != null)
-        {
-            float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
+        float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
 
-            if (distanceToPlayer <= chaseDistanceThreshold)
+        if (distanceToPlayer > jumpscareDistanceThreshold)
+        {
+            Vector2 direction = (player.transform.position - transform.position).normalized;
+            float horizontalDistance = Mathf.Abs(player.transform.position.x - transform.position.x);
+            float verticalDistance = Mathf.Abs(player.transform.position.y - transform.position.y);
+
+            Vector3 destination;
+
+            if (horizontalDistance > verticalDistance)
             {
-                agent.SetDestination(player.transform.position);
+                destination = new Vector3(player.transform.position.x, transform.position.y, transform.position.z);
             }
             else
             {
-                agent.ResetPath();
+                destination = new Vector3(transform.position.x, player.transform.position.y, transform.position.z);
             }
 
-            RestrictDiagonalMovement();
+            agent.SetDestination(destination);
 
-            UpdateAnimator(agent.velocity);
-
-            // Check for jumpscare
-            if (distanceToPlayer <= jumpscareDistanceThreshold)
-            {
-                TriggerJumpscare();
-            }
-        }
-    }
-
-    private void RestrictDiagonalMovement()
-    {
-        Vector2 direction = agent.desiredVelocity;
-
-        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
-        {
-            direction.y = 0;
+            Vector2 velocity = agent.velocity;
+            animator.SetFloat("Horizontal", velocity.x);
+            animator.SetFloat("Vertical", velocity.y);
+            animator.SetFloat("Speed", velocity.sqrMagnitude);
         }
         else
         {
-            direction.x = 0;
+            // Stop the monster movement
+            agent.isStopped = true;
+
+            // Trigger the jumpscare video
+            CanvasGroup canvasGroup = jumpscareCanvas.GetComponent<CanvasGroup>();
+            canvasGroup.alpha = 1;
+            jumpscareVideo.Play();
+
+            // Set the "Speed" parameter to zero to stop the walking animation
+            animator.SetFloat("Speed", 0f);
         }
 
-        agent.velocity = direction.normalized * agent.speed;
-    }
+        // Constrain rotation on the Y and Z axes for the parent GameObject
+        transform.rotation = Quaternion.Euler(0, 0, 0);
 
-    private void UpdateAnimator(Vector2 velocity)
-    {
-        animator.SetFloat("Horizontal", velocity.x);
-        animator.SetFloat("Vertical", velocity.y);
-        animator.SetFloat("Speed", velocity.sqrMagnitude);
-    }
-
-    void TriggerJumpscare()
-    {
-        CanvasGroup canvasGroup = jumpscareCanvas.GetComponent<CanvasGroup>();
-        canvasGroup.alpha = 1; // Set the canvas alpha to 1 (fully visible)
-        jumpscareVideo.Play();
+        // Constrain angular movement for the MonsterSprite GameObject
+        monsterSprite.transform.localRotation = Quaternion.identity;
     }
 }

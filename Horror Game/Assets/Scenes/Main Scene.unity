@@ -106,7 +106,7 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.5
+    agentRadius: 0.14
     agentHeight: 2
     agentSlope: 45
     agentClimb: 0.4
@@ -114,7 +114,7 @@ NavMeshSettings:
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.16666667
+    cellSize: 0.046666667
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
@@ -444,8 +444,9 @@ GameObject:
   - component: {fileID: 421837596}
   - component: {fileID: 421837595}
   - component: {fileID: 421837593}
-  - component: {fileID: 421837598}
   - component: {fileID: 421837599}
+  - component: {fileID: 421837601}
+  - component: {fileID: 421837600}
   m_Layer: 0
   m_Name: Monster
   m_TagString: Untagged
@@ -554,31 +555,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 421837592}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.22, y: 3.53, z: -1}
+  m_LocalPosition: {x: -6.23, y: 4.79, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &421837598
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 421837592}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7dd807af97cf1c145ad48f186463bbe1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 700994331}
-  jumpscareCanvas: {fileID: 107799516}
-  jumpscareVideo: {fileID: 146679724}
-  jumpscareDistanceThreshold: 0.5
-  MonsterSpeed: 2
-  JumpscareOffsety: 0.8
 --- !u!70 &421837599
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -595,6 +578,44 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.8849999}
   m_Size: {x: 0.78, y: 0.78}
   m_Direction: 0
+--- !u!195 &421837600
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421837592}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.38
+  m_Speed: 1
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.78
+  m_BaseOffset: 1.28
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &421837601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421837592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5a291ae8b043e34782e7ac8699f4b28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 700994331}
+  jumpscareCanvas: {fileID: 107799516}
+  jumpscareVideo: {fileID: 146679724}
+  jumpscareDistanceThreshold: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -861,7 +882,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 700994331}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.06, y: 3.18, z: -1}
+  m_LocalPosition: {x: -1.61, y: 0.04, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3359,7 +3380,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.06666667
+  m_VoxelSize: 0.016666668
   m_BuildHeightMesh: 0
   m_HideEditorLogs: 0
   m_NavMeshData: {fileID: 23800000, guid: c93bc85efb5272940b68e329185583ab, type: 2}
