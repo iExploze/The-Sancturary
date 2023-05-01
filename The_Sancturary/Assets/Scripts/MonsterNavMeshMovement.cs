@@ -14,6 +14,7 @@ public class MonsterNavMeshMovement : MonoBehaviour
     public float jumpscareDistanceThreshold = 1f;
     public string deathSceneName;
 
+    public string survivalPlayerPrefKey = "Survived";
     private UnityEngine.AI.NavMeshAgent agent;
     private Animator animator;
 
@@ -80,6 +81,10 @@ public class MonsterNavMeshMovement : MonoBehaviour
     {
         // Wait for the length of the jumpscare video
         yield return new WaitForSeconds((float)jumpscareVideo.length);
+
+        // Set the PlayerPrefs value for the survival status to 0 (not survived)
+        PlayerPrefs.SetInt(survivalPlayerPrefKey, 0);
+        PlayerPrefs.Save();
 
         // Load the death scene
         SceneManager.LoadScene(deathSceneName);

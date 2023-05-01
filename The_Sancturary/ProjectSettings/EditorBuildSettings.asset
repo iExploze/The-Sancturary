@@ -15,6 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/LoadScene_temp.unity
     guid: 67aadd5362ea75f4693624bd3cc71792
   - enabled: 1
-    path: Assets/Scenes/Death Scene.unity
+    path: Assets/Scenes/End Scene.unity
     guid: 12e62a2224d6f9649b2a0b953d1678e5
   m_configObjects: {}
