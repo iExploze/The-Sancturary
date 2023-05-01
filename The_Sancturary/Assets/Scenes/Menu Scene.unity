@@ -221,6 +221,7 @@ GameObject:
   - component: {fileID: 281639683}
   - component: {fileID: 281639687}
   - component: {fileID: 281639686}
+  - component: {fileID: 281639688}
   m_Layer: 5
   m_Name: PlayButton
   m_TagString: Untagged
@@ -368,6 +369,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: LoadScene_temp
+--- !u!114 &281639688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 281639681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feb42213c0ca22643adf655c34d9606d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &760601127
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,6 +579,7 @@ GameObject:
   - component: {fileID: 1010255940}
   - component: {fileID: 1010255939}
   - component: {fileID: 1010255938}
+  - component: {fileID: 1010255942}
   - component: {fileID: 1010255941}
   m_Layer: 5
   m_Name: CreditButton
@@ -638,7 +652,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 760601127}
+      - m_Target: {fileID: 1010255936}
         m_TargetAssemblyTypeName: 
         m_MethodName: 
         m_Mode: 1
@@ -701,6 +715,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scaleFactor: 1.2
+--- !u!114 &1010255942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010255936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feb42213c0ca22643adf655c34d9606d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1060124931
 GameObject:
   m_ObjectHideFlags: 0
@@ -713,6 +739,7 @@ GameObject:
   - component: {fileID: 1060124935}
   - component: {fileID: 1060124934}
   - component: {fileID: 1060124933}
+  - component: {fileID: 1060124937}
   - component: {fileID: 1060124936}
   m_Layer: 5
   m_Name: OptionButton
@@ -785,7 +812,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 760601127}
+      - m_Target: {fileID: 1060124931}
         m_TargetAssemblyTypeName: 
         m_MethodName: 
         m_Mode: 1
@@ -848,6 +875,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scaleFactor: 1.2
+--- !u!114 &1060124937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060124931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feb42213c0ca22643adf655c34d9606d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1644801015
 GameObject:
   m_ObjectHideFlags: 0
@@ -1042,6 +1081,7 @@ GameObject:
   - component: {fileID: 1912705789}
   - component: {fileID: 1912705788}
   - component: {fileID: 1912705787}
+  - component: {fileID: 1912705791}
   - component: {fileID: 1912705790}
   m_Layer: 5
   m_Name: QuitButton
@@ -1114,13 +1154,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 760601127}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1912705791}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1177,3 +1217,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scaleFactor: 1.2
+--- !u!114 &1912705791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1912705785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feb42213c0ca22643adf655c34d9606d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

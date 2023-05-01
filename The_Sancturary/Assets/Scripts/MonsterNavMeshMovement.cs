@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using UnityEngine.SceneManagement;
 
 public class MonsterNavMeshMovement : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class MonsterNavMeshMovement : MonoBehaviour
     public VideoPlayer jumpscareVideo;
     public GameObject monsterSprite;
     public float jumpscareDistanceThreshold = 1f;
+    public string deathSceneName;
 
     private UnityEngine.AI.NavMeshAgent agent;
     private Animator animator;
@@ -42,16 +44,29 @@ public class MonsterNavMeshMovement : MonoBehaviour
         }
         else
         {
-            // Stop the monster movement
-            agent.isStopped = true;
+            PlayerHealthManager playerHealthManager = player.GetComponent<PlayerHealthManager>();
 
-            // Trigger the jumpscare video
-            CanvasGroup canvasGroup = jumpscareCanvas.GetComponent<CanvasGroup>();
-            canvasGroup.alpha = 1;
-            jumpscareVideo.Play();
+            if (playerHealthManager != null && playerHealthManager.health > 0)
+            {
+                // Stop the monster movement
+                agent.isStopped = true;
 
-            // Set the "Speed" parameter to zero to stop the walking animation
-            animator.SetFloat("Speed", 0f);
+                // Trigger the jumpscare video
+                CanvasGroup canvasGroup = jumpscareCanvas.GetComponent<CanvasGroup>();
+                canvasGroup.alpha = 1;
+                jumpscareVideo.Play();
+
+                // Set the "Speed" parameter to zero to stop the walking animation
+                animator.SetFloat("Speed", 0f);
+
+                // Decrease the player health
+                playerHealthManager.TakeDamage(10);
+            }
+            else if (playerHealthManager != null && playerHealthManager.health <= 0)
+            {
+                // Wait for the jumpscare video to finish, then transition to the death scene
+                StartCoroutine(WaitForJumpscare());
+            }
         }
 
         // Constrain rotation on the Y and Z axes for the parent GameObject
@@ -59,5 +74,14 @@ public class MonsterNavMeshMovement : MonoBehaviour
 
         // Constrain angular movement for the MonsterSprite GameObject
         monsterSprite.transform.localRotation = Quaternion.identity;
+    }
+
+    IEnumerator WaitForJumpscare()
+    {
+        // Wait for the length of the jumpscare video
+        yield return new WaitForSeconds((float)jumpscareVideo.length);
+
+        // Load the death scene
+        SceneManager.LoadScene(deathSceneName);
     }
 }

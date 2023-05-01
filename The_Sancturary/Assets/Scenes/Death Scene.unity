@@ -290,7 +290,7 @@ GameObject:
   - component: {fileID: 1336885964}
   - component: {fileID: 1336885963}
   m_Layer: 5
-  m_Name: PlayButton
+  m_Name: QuitButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -341,7 +341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30620795d45f7a542a4bacdb4a44c1dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: Main Scene
+  sceneName: Menu Scene
 --- !u!114 &1336885965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,7 +418,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 37b5bb2b10d70594b817486c3f13d83b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 98c0eb1c6abd91c45a115fe660e6b3b0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
