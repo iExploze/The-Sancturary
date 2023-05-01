@@ -788,6 +788,8 @@ MonoBehaviour:
   jumpscareDistanceThreshold: 0.8
   deathSceneName: End Scene
   survivalPlayerPrefKey: Survived
+  normalSpeed: 1.8
+  slowedSpeed: 0.8
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1282,10 +1284,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.0041656494
-      value: 0.5
-      inSlope: 0.49792582
-      outSlope: 0.49792582
+      time: 0.10958555
+      value: 0.4972496
+      inSlope: 0.56462514
+      outSlope: 0.56462514
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
@@ -1293,8 +1295,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0.49792582
-      outSlope: 0.49792582
+      inSlope: 0.56462514
+      outSlope: 0.56462514
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -1315,8 +1317,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.3416748
-      value: 1
+      time: 0.50341797
+      value: 1.0052032
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1326,6 +1328,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  scaryMusicTriggerVolume: 0.8
 --- !u!1 &714129023
 GameObject:
   m_ObjectHideFlags: 0
@@ -1426,7 +1429,7 @@ MonoBehaviour:
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 1.5
-  m_PointLightOuterRadius: 3
+  m_PointLightOuterRadius: 2.25
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1

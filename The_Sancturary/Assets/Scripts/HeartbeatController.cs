@@ -8,6 +8,7 @@ public class HeartbeatController : MonoBehaviour
     public AudioSource scaryMusicAudioSource;
     public AnimationCurve volumeCurve;
     public AnimationCurve pitchCurve;
+    public float scaryMusicTriggerVolume = 0.5f;
 
     private void Update()
     {
@@ -27,8 +28,20 @@ public class HeartbeatController : MonoBehaviour
         heartbeatAudioSource.volume = volumeCurve.Evaluate(t);
         heartbeatAudioSource.pitch = pitchCurve.Evaluate(t);
 
-        // Control the volume of the scary music based on proximity to the monster
-        float scaryMusicVolume = 1f - heartbeatAudioSource.volume;
-        scaryMusicAudioSource.volume = scaryMusicVolume;
+        // Play the scary music only when the heartbeat is loud
+        if (heartbeatAudioSource.volume >= scaryMusicTriggerVolume)
+        {
+            if (!scaryMusicAudioSource.isPlaying)
+            {
+                scaryMusicAudioSource.Play();
+            }
+        }
+        else
+        {
+            if (scaryMusicAudioSource.isPlaying)
+            {
+                scaryMusicAudioSource.Stop();
+            }
+        }
     }
 }
