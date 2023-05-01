@@ -14,6 +14,12 @@ public class MonsterNavMeshMovement : MonoBehaviour
     public float jumpscareDistanceThreshold = 1f;
     public string deathSceneName;
 
+    private bool isSlowed = false;
+    public float slowDownDistance = 10f;
+
+    public float slowedSpeed = 0.8f;
+
+    public float normalSpeed = 1.8f;
     public string survivalPlayerPrefKey = "Survived";
     private UnityEngine.AI.NavMeshAgent agent;
     private Animator animator;
@@ -36,6 +42,12 @@ public class MonsterNavMeshMovement : MonoBehaviour
 
         if (distanceToPlayer > jumpscareDistanceThreshold)
         {
+
+            if (!isSlowed && distanceToPlayer <= slowDownDistance)
+            {
+                StartCoroutine(SlowDownMonster());
+            }
+
             agent.SetDestination(player.transform.position);
 
             Vector2 velocity = agent.velocity;
@@ -75,6 +87,32 @@ public class MonsterNavMeshMovement : MonoBehaviour
 
         // Constrain angular movement for the MonsterSprite GameObject
         monsterSprite.transform.localRotation = Quaternion.identity;
+    }
+
+    IEnumerator SlowDownMonster()
+    {
+        isSlowed = true;
+
+        // Wait for a random duration between 10 and 20 seconds
+        float chaseDuration = Random.Range(10f, 20f);
+        yield return new WaitForSeconds(chaseDuration);
+
+        // Check if the monster is close enough to the player
+        float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
+        if (distanceToPlayer <= slowDownDistance)
+        {
+            // Slow down the monster
+            agent.speed = slowedSpeed;
+
+            // Wait for a random duration between 10 and 20 seconds
+            float slowDuration = Random.Range(10f, 20f);
+            yield return new WaitForSeconds(slowDuration);
+
+            // Restore the monster's speed
+            agent.speed = normalSpeed;
+        }
+
+        isSlowed = false;
     }
 
     IEnumerator WaitForJumpscare()

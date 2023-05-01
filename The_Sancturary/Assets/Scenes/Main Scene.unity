@@ -667,7 +667,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 390583239}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.988, y: -22.196, z: -1}
+  m_LocalPosition: {x: -3.97, y: -22.19, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -723,7 +723,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 421837592}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -30.51, y: 0.94, z: -1}
+  m_LocalPosition: {x: -30.48, y: 0.62, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -787,9 +787,10 @@ MonoBehaviour:
   monsterSprite: {fileID: 1932376576}
   jumpscareDistanceThreshold: 0.8
   deathSceneName: End Scene
-  survivalPlayerPrefKey: Survived
+  slowDownDistance: 10
+  slowedSpeed: 0.45
   normalSpeed: 1.8
-  slowedSpeed: 0.8
+  survivalPlayerPrefKey: Survived
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1277,7 +1278,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterTag: Monster
-  maxDistance: 20
+  maxDistance: 10
   heartbeatAudioSource: {fileID: 1247573493}
   scaryMusicAudioSource: {fileID: 1006839702}
   volumeCurve:
@@ -1328,7 +1329,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  scaryMusicTriggerVolume: 0.8
+  scaryMusicTriggerVolume: 0.5
 --- !u!1 &714129023
 GameObject:
   m_ObjectHideFlags: 0
@@ -1469,7 +1470,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 1a191e70fefe7f94b8b37722a010ea28, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.75
   m_Pitch: 1
   Loop: 0
   Mute: 0
