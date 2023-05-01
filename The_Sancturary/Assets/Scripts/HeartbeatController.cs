@@ -5,6 +5,7 @@ public class HeartbeatController : MonoBehaviour
     public string monsterTag = "Monster";
     public float maxDistance = 10f;
     public AudioSource heartbeatAudioSource;
+    public AudioSource scaryMusicAudioSource;
     public AnimationCurve volumeCurve;
     public AnimationCurve pitchCurve;
 
@@ -25,5 +26,9 @@ public class HeartbeatController : MonoBehaviour
         float t = 1f - Mathf.Clamp01(minDistance / maxDistance);
         heartbeatAudioSource.volume = volumeCurve.Evaluate(t);
         heartbeatAudioSource.pitch = pitchCurve.Evaluate(t);
+
+        // Control the volume of the scary music based on proximity to the monster
+        float scaryMusicVolume = 1f - heartbeatAudioSource.volume;
+        scaryMusicAudioSource.volume = scaryMusicVolume;
     }
 }
