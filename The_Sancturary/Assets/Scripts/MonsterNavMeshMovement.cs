@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
 using UnityEngine.SceneManagement;
+using UnityEngine.AI;
+
 
 public class MonsterNavMeshMovement : MonoBehaviour
 {
@@ -12,6 +14,7 @@ public class MonsterNavMeshMovement : MonoBehaviour
     public VideoPlayer jumpscareVideo;
     public GameObject monsterSprite;
     public float jumpscareDistanceThreshold = 1f;
+    public float wanderAreaRadius = 10f;
     public string deathSceneName;
 
     private bool isSlowed = false;
@@ -38,47 +41,61 @@ public class MonsterNavMeshMovement : MonoBehaviour
 
     void Update()
     {
-        float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
-
-        if (distanceToPlayer > jumpscareDistanceThreshold)
+        // Check if the player is hiding
+        if (!player.activeSelf)
         {
-
-            if (!isSlowed && distanceToPlayer <= slowDownDistance)
+            // Wander around randomly
+            if (!agent.pathPending && agent.remainingDistance < 0.5f)
             {
-                StartCoroutine(SlowDownMonster());
+                Wanderer();
             }
-
-            agent.SetDestination(player.transform.position);
-
-            Vector2 velocity = agent.velocity;
-            animator.SetFloat("Horizontal", velocity.x);
-            animator.SetFloat("Vertical", velocity.y);
-            animator.SetFloat("Speed", velocity.sqrMagnitude);
         }
         else
         {
-            PlayerHealthManager playerHealthManager = player.GetComponent<PlayerHealthManager>();
+            // Check the distance to the player
+            float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
 
-            if (playerHealthManager != null && playerHealthManager.health > 0)
+            if (distanceToPlayer > jumpscareDistanceThreshold)
             {
-                // Stop the monster movement
-                agent.isStopped = true;
+                // Start chasing the player
+                if (!isSlowed && distanceToPlayer <= slowDownDistance)
+                {
+                    StartCoroutine(SlowDownMonster());
+                }
 
-                // Trigger the jumpscare video
-                CanvasGroup canvasGroup = jumpscareCanvas.GetComponent<CanvasGroup>();
-                canvasGroup.alpha = 1;
-                jumpscareVideo.Play();
+                agent.SetDestination(player.transform.position);
 
-                // Set the "Speed" parameter to zero to stop the walking animation
-                animator.SetFloat("Speed", 0f);
-
-                // Decrease the player health
-                playerHealthManager.TakeDamage(10);
+                Vector2 velocity = agent.velocity;
+                animator.SetFloat("Horizontal", velocity.x);
+                animator.SetFloat("Vertical", velocity.y);
+                animator.SetFloat("Speed", velocity.sqrMagnitude);
             }
-            else if (playerHealthManager != null && playerHealthManager.health <= 0)
+            else
             {
-                // Wait for the jumpscare video to finish, then transition to the death scene
-                StartCoroutine(WaitForJumpscare());
+                // Player is too close, trigger the jumpscare behavior
+                PlayerHealthManager playerHealthManager = player.GetComponent<PlayerHealthManager>();
+
+                if (playerHealthManager != null && playerHealthManager.health > 0)
+                {
+                    // Stop the monster movement
+                    agent.isStopped = true;
+
+                    // Trigger the jumpscare video
+                    CanvasGroup canvasGroup = jumpscareCanvas.GetComponent<CanvasGroup>();
+                    canvasGroup.alpha = 1;
+                    jumpscareVideo.Play();
+
+                    // Set the "Speed" parameter to zero to stop the walking animation
+                    animator.SetFloat("Speed", 0f);
+
+                    // Decrease the player health
+                    playerHealthManager.TakeDamage(10);
+                }
+                else if (playerHealthManager != null && playerHealthManager.health <= 0)
+                {
+                    // Wait for the jumpscare video to finish, then transition to the death scene
+                    StartCoroutine(WaitForJumpscare());
+                }
             }
         }
 
@@ -88,6 +105,29 @@ public class MonsterNavMeshMovement : MonoBehaviour
         // Constrain angular movement for the MonsterSprite GameObject
         monsterSprite.transform.localRotation = Quaternion.identity;
     }
+
+
+
+    void Wanderer()
+    {
+        if (!agent.pathPending && agent.remainingDistance < 0.5f)
+        {
+            // Get a random point within the specified area
+            Vector2 randomPoint = Random.insideUnitCircle * wanderAreaRadius;
+
+            // Set the destination of the agent to the random point
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomPoint, out hit, 2.0f, NavMesh.AllAreas))
+            {
+                agent.SetDestination(hit.position);
+            }
+
+            // Set the animator "Speed" parameter to a non-zero value to play the walking animation
+            animator.SetFloat("Speed", 1f);
+        }
+    }
+
+
 
     IEnumerator SlowDownMonster()
     {

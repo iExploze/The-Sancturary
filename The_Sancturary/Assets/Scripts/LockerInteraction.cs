@@ -16,6 +16,8 @@ public class LockerInteraction : MonoBehaviour
     private Vector3 playerPositionWhenHiding;
 
     private AudioSource audioSource;
+
+    public static Vector2 currentLocation;
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -42,6 +44,8 @@ public class LockerInteraction : MonoBehaviour
 
     IEnumerator EnterLocker()
     {
+        currentLocation = transform.localPosition;
+        Debug.Log(currentLocation);
         audioSource.Play();
         yield return new WaitForSeconds(0.28f); // Adjust this value based on the duration of the opening animation
         playerPositionWhenHiding = player.transform.position;
@@ -54,6 +58,7 @@ public class LockerInteraction : MonoBehaviour
 
     IEnumerator ExitLocker()
     {
+        Debug.Log(currentLocation);
         insideLockerView.SetActive(false);
         lockerAnimator.SetTrigger(toggleLockerParameter);
         audioSource.Play();
