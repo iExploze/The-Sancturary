@@ -1,4 +1,5 @@
 # The Sancturary
 
-Horror Game Developed by Ian Zhang
-Art Assets Developed by Vlad Ign
+Horror Game Developed by Ian Zhang and Vlad Ign
+
+
