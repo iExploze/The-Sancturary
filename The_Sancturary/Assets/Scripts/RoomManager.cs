@@ -20,7 +20,6 @@ public class RoomManager : MonoBehaviour
         {
             for (int i = 0; i < roomColliders.Length; i++)
             {
-                print(i);
                 if (other.bounds.Intersects(roomColliders[i].bounds))
                 {
                     cameraScript.roomBounds = roomColliders[i];
