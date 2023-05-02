@@ -123,7 +123,10 @@ public class MonsterNavMeshMovement : MonoBehaviour
             }
 
             // Set the animator "Speed" parameter to a non-zero value to play the walking animation
-            animator.SetFloat("Speed", 1f);
+            Vector2 velocity = agent.velocity;
+            animator.SetFloat("Horizontal", velocity.x);
+            animator.SetFloat("Vertical", velocity.y);
+            animator.SetFloat("Speed", velocity.sqrMagnitude);
         }
     }
 

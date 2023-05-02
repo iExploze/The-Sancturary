@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Monster
+  - Prop
   layers:
   - Default
   - TransparentFX
@@ -13,23 +14,23 @@ TagManager:
   - Water
   - UI
   - 
+  - Player
+  - Props
   - 
   - 
   - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - Map
   - Walls
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
   - Floor
   - 
   - 

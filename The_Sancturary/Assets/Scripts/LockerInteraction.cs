@@ -8,31 +8,50 @@ public class LockerInteraction : MonoBehaviour
     public GameObject insideLockerView;
     public Animator lockerAnimator;
     public string toggleLockerParameter = "ToggleLocker";
-    public GameObject player;
 
     public GameObject LockerCamera;
 
+    private GameObject player;
     private bool playerIsHiding = false;
     private Vector3 playerPositionWhenHiding;
 
     private AudioSource audioSource;
 
     public static Vector2 currentLocation;
+
+    private bool playerIsNearby = false;
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerIsNearby = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerIsNearby = false;
+        }
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !playerIsHiding)
+        if (Input.GetMouseButtonDown(0) && !playerIsHiding && playerIsNearby)
         {
-            Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-            if (Vector2.Distance(transform.position, player.transform.position) <= interactionDistance &&
-                Vector2.Distance(transform.position, mouseWorldPos) <= interactionDistance)
+            // Cast a ray from the mouse position to check if it hits the locker
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+            if (hit.collider != null && hit.collider.gameObject == gameObject)
             {
-                lockerAnimator.SetTrigger(toggleLockerParameter);
                 StartCoroutine(EnterLocker());
             }
         }
@@ -44,8 +63,8 @@ public class LockerInteraction : MonoBehaviour
 
     IEnumerator EnterLocker()
     {
+        lockerAnimator.SetTrigger(toggleLockerParameter);
         currentLocation = transform.localPosition;
-        Debug.Log(currentLocation);
         audioSource.Play();
         yield return new WaitForSeconds(0.28f); // Adjust this value based on the duration of the opening animation
         playerPositionWhenHiding = player.transform.position;
@@ -58,7 +77,6 @@ public class LockerInteraction : MonoBehaviour
 
     IEnumerator ExitLocker()
     {
-        Debug.Log(currentLocation);
         insideLockerView.SetActive(false);
         lockerAnimator.SetTrigger(toggleLockerParameter);
         audioSource.Play();
