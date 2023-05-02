@@ -12,7 +12,7 @@ public class LockerInteraction : MonoBehaviour
     public GameObject LockerCamera;
 
     private GameObject player;
-    private bool playerIsHiding = false;
+    [HideInInspector]public bool playerIsHiding = false;
     private Vector3 playerPositionWhenHiding;
 
     private AudioSource audioSource;
@@ -21,10 +21,17 @@ public class LockerInteraction : MonoBehaviour
 
     private bool playerIsNearby = false;
 
+    private SpriteRenderer playerSpriteRenderer;
+    private Rigidbody2D playerRigidbody2D;
+    private Camera playerCamera;
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player");
+        playerSpriteRenderer = player.GetComponent<SpriteRenderer>();
+        playerRigidbody2D = player.GetComponent<Rigidbody2D>();
+        playerCamera = player.GetComponentInChildren<Camera>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -66,9 +73,16 @@ public class LockerInteraction : MonoBehaviour
         lockerAnimator.SetTrigger(toggleLockerParameter);
         currentLocation = transform.localPosition;
         audioSource.Play();
-        yield return new WaitForSeconds(0.28f); // Adjust this value based on the duration of the opening animation
+        yield return new WaitForSeconds(0.28f);
         playerPositionWhenHiding = player.transform.position;
-        player.SetActive(false);
+
+        // Disable Sprite Renderer, Rigidbody2D, and Camera
+        playerSpriteRenderer.enabled = false;
+        playerRigidbody2D.simulated = false;
+        playerCamera.enabled = false;
+
+        player.transform.position = transform.position;
+
         LockerCamera.SetActive(true);
         lockerAnimator.SetTrigger(toggleLockerParameter);
         insideLockerView.SetActive(true);
@@ -80,9 +94,13 @@ public class LockerInteraction : MonoBehaviour
         insideLockerView.SetActive(false);
         lockerAnimator.SetTrigger(toggleLockerParameter);
         audioSource.Play();
-        yield return new WaitForSeconds(0.28f); // Adjust this value based on the duration of the opening animation
-        LockerCamera.SetActive(false);
-        player.SetActive(true);
+        yield return new WaitForSeconds(0.28f);
+
+        // Enable Sprite Renderer, Rigidbody2D, and Camera
+        playerSpriteRenderer.enabled = true;
+        playerRigidbody2D.simulated = true;
+        playerCamera.enabled = true;
+
         player.transform.position = playerPositionWhenHiding;
         lockerAnimator.SetTrigger(toggleLockerParameter);
         playerIsHiding = false;

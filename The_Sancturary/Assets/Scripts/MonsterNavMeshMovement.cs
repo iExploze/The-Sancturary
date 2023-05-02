@@ -27,6 +27,8 @@ public class MonsterNavMeshMovement : MonoBehaviour
     private UnityEngine.AI.NavMeshAgent agent;
     private Animator animator;
 
+    private LockerInteraction lockerInteraction;
+
     void Start()
     {
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
@@ -37,12 +39,14 @@ public class MonsterNavMeshMovement : MonoBehaviour
         agent.acceleration = 20f;
         agent.angularSpeed = 600f;
         agent.autoBraking = false;
+
+        lockerInteraction = FindObjectOfType<LockerInteraction>();
     }
 
     void Update()
     {
         // Check if the player is hiding
-        if (!player.activeSelf)
+        if (lockerInteraction.playerIsHiding)
         {
             // Wander around randomly
             if (!agent.pathPending && agent.remainingDistance < 0.5f)
