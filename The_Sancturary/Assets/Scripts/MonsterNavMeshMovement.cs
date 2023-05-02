@@ -72,12 +72,7 @@ public class MonsterNavMeshMovement : MonoBehaviour
             }
             else
             {
-                // Player is too close, trigger the jumpscare behavior
-                PlayerHealthManager playerHealthManager = player.GetComponent<PlayerHealthManager>();
-
-                if (playerHealthManager != null && playerHealthManager.health > 0)
-                {
-                    // Stop the monster movement
+                // Stop the monster movement
                     agent.isStopped = true;
 
                     // Trigger the jumpscare video
@@ -87,15 +82,8 @@ public class MonsterNavMeshMovement : MonoBehaviour
 
                     // Set the "Speed" parameter to zero to stop the walking animation
                     animator.SetFloat("Speed", 0f);
-
-                    // Decrease the player health
-                    playerHealthManager.TakeDamage(10);
-                }
-                else if (playerHealthManager != null && playerHealthManager.health <= 0)
-                {
                     // Wait for the jumpscare video to finish, then transition to the death scene
                     StartCoroutine(WaitForJumpscare());
-                }
             }
         }
 
@@ -161,7 +149,7 @@ public class MonsterNavMeshMovement : MonoBehaviour
     IEnumerator WaitForJumpscare()
     {
         // Wait for the length of the jumpscare video
-        yield return new WaitForSeconds((float)jumpscareVideo.length);
+        yield return new WaitForSeconds((float)jumpscareVideo.length-0.3f);
 
         // Set the PlayerPrefs value for the survival status to 0 (not survived)
         PlayerPrefs.SetInt(survivalPlayerPrefKey, 0);
