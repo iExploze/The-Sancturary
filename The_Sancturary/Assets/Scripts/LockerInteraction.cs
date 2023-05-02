@@ -71,7 +71,7 @@ public class LockerInteraction : MonoBehaviour
     IEnumerator EnterLocker()
     {
         lockerAnimator.SetTrigger(toggleLockerParameter);
-        currentLocation = transform.localPosition;
+        //currentLocation = transform.localPosition;
         audioSource.Play();
         yield return new WaitForSeconds(0.28f);
         playerPositionWhenHiding = player.transform.position;

@@ -102,24 +102,21 @@ public class MonsterNavMeshMovement : MonoBehaviour
 
     void Wanderer()
     {
-        if (!agent.pathPending && agent.remainingDistance < 0.5f)
+        // Get a random point within the specified area
+        Vector2 randomPoint = Random.insideUnitCircle * wanderAreaRadius;
+
+        // Set the destination of the agent to the random point
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomPoint, out hit, 2.0f, NavMesh.AllAreas))
         {
-            // Get a random point within the specified area
-            Vector2 randomPoint = Random.insideUnitCircle * wanderAreaRadius;
-
-            // Set the destination of the agent to the random point
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(randomPoint, out hit, 2.0f, NavMesh.AllAreas))
-            {
-                agent.SetDestination(hit.position);
-            }
-
-            // Set the animator "Speed" parameter to a non-zero value to play the walking animation
-            Vector2 velocity = agent.velocity;
-            animator.SetFloat("Horizontal", velocity.x);
-            animator.SetFloat("Vertical", velocity.y);
-            animator.SetFloat("Speed", velocity.sqrMagnitude);
+            agent.SetDestination(hit.position);
         }
+
+        // Set the animator "Speed" parameter to a non-zero value to play the walking animation
+        Vector2 velocity = agent.velocity;
+        animator.SetFloat("Horizontal", velocity.x);
+        animator.SetFloat("Vertical", velocity.y);
+        animator.SetFloat("Speed", velocity.sqrMagnitude);
     }
 
 
