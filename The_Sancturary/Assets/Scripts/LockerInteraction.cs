@@ -1,30 +1,67 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class LockerInteraction : MonoBehaviour
 {
+    public float interactionDistance = 1f;
+    public GameObject insideLockerView;
     public Animator lockerAnimator;
-    private Camera mainCamera;
+    public string toggleLockerParameter = "ToggleLocker";
+    public GameObject player;
 
-    private void Start()
+    public GameObject LockerCamera;
+
+    private bool playerIsHiding = false;
+    private Vector3 playerPositionWhenHiding;
+
+    private AudioSource audioSource;
+    void Start()
     {
-        mainCamera = Camera.main;
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !playerIsHiding)
         {
-            RaycastHit2D hit = Physics2D.Raycast(mainCamera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+            Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            if (hit.collider != null && hit.collider.gameObject == gameObject)
+            if (Vector2.Distance(transform.position, player.transform.position) <= interactionDistance &&
+                Vector2.Distance(transform.position, mouseWorldPos) <= interactionDistance)
             {
-                ToggleLocker();
+                lockerAnimator.SetTrigger(toggleLockerParameter);
+                StartCoroutine(EnterLocker());
             }
+        }
+        else if (Input.GetMouseButtonDown(0) && playerIsHiding)
+        {
+            StartCoroutine(ExitLocker());
         }
     }
 
-    private void ToggleLocker()
+    IEnumerator EnterLocker()
     {
-        lockerAnimator.SetTrigger("ToggleLocker");
+        audioSource.Play();
+        yield return new WaitForSeconds(0.28f); // Adjust this value based on the duration of the opening animation
+        playerPositionWhenHiding = player.transform.position;
+        player.SetActive(false);
+        LockerCamera.SetActive(true);
+        lockerAnimator.SetTrigger(toggleLockerParameter);
+        insideLockerView.SetActive(true);
+        playerIsHiding = true;
+    }
+
+    IEnumerator ExitLocker()
+    {
+        insideLockerView.SetActive(false);
+        lockerAnimator.SetTrigger(toggleLockerParameter);
+        audioSource.Play();
+        yield return new WaitForSeconds(0.28f); // Adjust this value based on the duration of the opening animation
+        LockerCamera.SetActive(false);
+        player.SetActive(true);
+        player.transform.position = playerPositionWhenHiding;
+        lockerAnimator.SetTrigger(toggleLockerParameter);
+        playerIsHiding = false;
     }
 }
