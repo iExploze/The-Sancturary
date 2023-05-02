@@ -1,5 +1,4 @@
-# BigBlackGorilla
-Horror game
+# The Sancturary
 
-
-asdf
+Horror Game Developed by Ian Zhang
+Art Assets Developed by Vlad Ign
