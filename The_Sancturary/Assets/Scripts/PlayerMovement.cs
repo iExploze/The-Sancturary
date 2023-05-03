@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
 
     public AudioSource walkingSound;
 
+    public bool isHiding = false;
+
     Vector2 movement;
 
     void Update()
@@ -50,6 +52,9 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        Rb.MovePosition(Rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+        if (!isHiding) // Only allow movement if not hiding
+        {
+            Rb.MovePosition(Rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+        }
     }
 }
