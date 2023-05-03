@@ -10,6 +10,7 @@ public class LockerInteraction : MonoBehaviour
     public string toggleLockerParameter = "ToggleLocker";
 
     public GameObject LockerCamera;
+    public Canvas lockerCanvas;
 
     private GameObject player;
     private Vector3 playerPositionWhenHiding;
@@ -33,6 +34,7 @@ public class LockerInteraction : MonoBehaviour
         playerSpriteRenderer = player.GetComponent<SpriteRenderer>();
         playerRigidbody2D = player.GetComponent<Rigidbody2D>();
         playerCamera = player.GetComponentInChildren<Camera>();
+        lockerCanvas.enabled = true;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
