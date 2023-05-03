@@ -26,6 +26,7 @@ public class EthanController : MonoBehaviour
         spriteRenderer = transform.GetComponent<SpriteRenderer>();
         animator = transform.GetComponent<Animator>();
         jumpscareCanvas.GetComponent<CanvasGroup>().alpha = 0;
+        spriteRenderer.enabled = false;
     }
 
     void Update()
@@ -36,6 +37,7 @@ public class EthanController : MonoBehaviour
             if (timePlayerInTrigger >= timeToTrigger)
             {
                 animator.SetBool("TooLong", true);
+                spriteRenderer.enabled = true;
                 StartCoroutine(PlayJumpscare());
             }
         }
@@ -74,6 +76,7 @@ public class EthanController : MonoBehaviour
 
     IEnumerator PlayJumpscare()
     {
+        yield return new WaitForSeconds(1f);
         CanvasGroup canvasGroup = jumpscareCanvas.GetComponent<CanvasGroup>();
         canvasGroup.alpha = 1;
         jumpscareVideo.Play();
