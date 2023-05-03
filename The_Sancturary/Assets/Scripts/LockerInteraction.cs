@@ -53,7 +53,6 @@ public class LockerInteraction : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(playerInThisLocker);
         if (Input.GetMouseButtonDown(0) && !player.GetComponent<PlayerMovement>().isHiding && playerIsNearby)
         {
             // Cast a ray from the mouse position to check if it hits the locker
@@ -74,7 +73,6 @@ public class LockerInteraction : MonoBehaviour
 
     IEnumerator EnterLocker()
     {
-        Debug.Log("in");
         lockerAnimator.SetTrigger(toggleLockerParameter);
         //currentLocation = transform.localPosition;
         audioSource.Play();
@@ -95,7 +93,6 @@ public class LockerInteraction : MonoBehaviour
 
     IEnumerator ExitLocker()
     {
-        Debug.Log("exit");
         insideLockerView.SetActive(false);
         lockerAnimator.SetTrigger(toggleLockerParameter);
         audioSource.Play();
