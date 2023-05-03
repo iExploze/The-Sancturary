@@ -46,7 +46,7 @@ public class MonsterNavMeshMovement : MonoBehaviour
     void Update()
     {
         // Check if the player is hiding
-        if (lockerInteraction.playerIsHiding)
+        if (player.GetComponent<PlayerMovement>().isHiding)
         {
             // Wander around randomly
             if (!agent.pathPending && agent.remainingDistance < 0.5f)

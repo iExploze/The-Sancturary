@@ -12,7 +12,6 @@ public class LockerInteraction : MonoBehaviour
     public GameObject LockerCamera;
 
     private GameObject player;
-    [HideInInspector]public bool playerIsHiding = false;
     private Vector3 playerPositionWhenHiding;
 
     private AudioSource audioSource;
@@ -24,6 +23,8 @@ public class LockerInteraction : MonoBehaviour
     private SpriteRenderer playerSpriteRenderer;
     private Rigidbody2D playerRigidbody2D;
     private Camera playerCamera;
+
+    private bool playerInThisLocker = false;
 
     void Start()
     {
@@ -52,24 +53,28 @@ public class LockerInteraction : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !playerIsHiding && playerIsNearby)
+        Debug.Log(playerInThisLocker);
+        if (Input.GetMouseButtonDown(0) && !player.GetComponent<PlayerMovement>().isHiding && playerIsNearby)
         {
             // Cast a ray from the mouse position to check if it hits the locker
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
             if (hit.collider != null && hit.collider.gameObject == gameObject)
             {
+                playerInThisLocker = true;
                 StartCoroutine(EnterLocker());
             }
         }
-        else if (Input.GetMouseButtonDown(0) && playerIsHiding)
+        else if (Input.GetMouseButtonDown(0) && player.GetComponent<PlayerMovement>().isHiding && playerInThisLocker)
         {
+            playerInThisLocker = false;
             StartCoroutine(ExitLocker());
         }
     }
 
     IEnumerator EnterLocker()
     {
+        Debug.Log("in");
         lockerAnimator.SetTrigger(toggleLockerParameter);
         //currentLocation = transform.localPosition;
         audioSource.Play();
@@ -80,17 +85,17 @@ public class LockerInteraction : MonoBehaviour
         playerSpriteRenderer.enabled = false;
         playerRigidbody2D.simulated = false;
         playerCamera.enabled = false;
-
+        player.GetComponent<PlayerMovement>().isHiding = true;
         player.transform.position = transform.position;
 
         LockerCamera.SetActive(true);
         lockerAnimator.SetTrigger(toggleLockerParameter);
         insideLockerView.SetActive(true);
-        playerIsHiding = true;
     }
 
     IEnumerator ExitLocker()
     {
+        Debug.Log("exit");
         insideLockerView.SetActive(false);
         lockerAnimator.SetTrigger(toggleLockerParameter);
         audioSource.Play();
@@ -99,10 +104,11 @@ public class LockerInteraction : MonoBehaviour
         // Enable Sprite Renderer, Rigidbody2D, and Camera
         playerSpriteRenderer.enabled = true;
         playerRigidbody2D.simulated = true;
+        player.GetComponent<PlayerMovement>().isHiding = false;
         playerCamera.enabled = true;
 
+        LockerCamera.SetActive(false);
         player.transform.position = playerPositionWhenHiding;
         lockerAnimator.SetTrigger(toggleLockerParameter);
-        playerIsHiding = false;
     }
 }
