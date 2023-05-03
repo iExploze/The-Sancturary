@@ -49,7 +49,7 @@ public class MonsterNavMeshMovement : MonoBehaviour
         if (player.GetComponent<PlayerMovement>().isHiding)
         {
             // Wander around randomly
-            if (!agent.pathPending && agent.remainingDistance < 0.5f)
+            if (!agent.pathPending && agent.remainingDistance < 2f)
             {
                 Wanderer();
             }

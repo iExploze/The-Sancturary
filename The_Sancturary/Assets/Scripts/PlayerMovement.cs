@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -15,23 +16,30 @@ public class PlayerMovement : MonoBehaviour
 
     Vector2 movement;
 
+    public Light2D lightToControl;
+
+    private void Start()
+    {
+        
+    }
+
     void Update()
     {
         if (Input.GetAxisRaw("Horizontal") != 0f)
-    {
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = 0f;
-    }
-    else if (Input.GetAxisRaw("Vertical") != 0f)
-    {
-        movement.y = Input.GetAxisRaw("Vertical");
-        movement.x = 0f;
-    }
-    else
-    {
-        movement.x = 0f;
-        movement.y = 0f;
-    }
+        {
+            movement.x = Input.GetAxisRaw("Horizontal");
+            movement.y = 0f;
+        }
+        else if (Input.GetAxisRaw("Vertical") != 0f)
+        {
+            movement.y = Input.GetAxisRaw("Vertical");
+            movement.x = 0f;
+        }
+        else
+        {
+            movement.x = 0f;
+            movement.y = 0f;
+        }
 
         animator.SetFloat("Horizontal", movement.x);
         animator.SetFloat("Vertical", movement.y);
@@ -47,6 +55,17 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             walkingSound.Stop();
+        }
+
+        if (isHiding)
+        {
+            lightToControl.pointLightInnerRadius = 0.1f;
+            lightToControl.pointLightOuterRadius = 1f;
+        }
+        else
+        {
+            lightToControl.pointLightInnerRadius = 1f;
+            lightToControl.pointLightOuterRadius = 3.25f;
         }
     }
 
