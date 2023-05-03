@@ -65,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             lightToControl.pointLightInnerRadius = 1f;
-            lightToControl.pointLightOuterRadius = 2.25f;
+            lightToControl.pointLightOuterRadius = 3.25f;
         }
     }
 

@@ -1,5 +1,0 @@
-also for vlad, download this version of unity and add the following supports
-
-Unity Version: 2021.3.15f1
-Mac Build Support (Mono)
-Mac Dedicated Server Build Support
