@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.AI;
 
 
-public class MonsterNavMeshMovement : MonoBehaviour
+public class GeorgyController : MonoBehaviour
 {
     private GameObject player;
     public Canvas jumpscareCanvas;
