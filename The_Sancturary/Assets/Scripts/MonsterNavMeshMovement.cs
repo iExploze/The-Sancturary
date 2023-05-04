@@ -9,10 +9,10 @@ using UnityEngine.AI;
 
 public class MonsterNavMeshMovement : MonoBehaviour
 {
-    private GameObject player;
-    private Canvas jumpscareCanvas;
-    private VideoPlayer jumpscareVideo;
-    private GameObject monsterSprite;
+    public GameObject player;
+    public Canvas jumpscareCanvas;
+    public VideoPlayer jumpscareVideo;
+    public GameObject monsterSprite;
     public float jumpscareDistanceThreshold = 1f;
     public float wanderAreaRadius = 10f;
     public string deathSceneName;
@@ -34,10 +34,6 @@ public class MonsterNavMeshMovement : MonoBehaviour
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         animator = monsterSprite.GetComponent<Animator>();
         jumpscareCanvas.GetComponent<CanvasGroup>().alpha = 0;
-        jumpscareVideo = transform.Find("GeoVideo").GetComponent<VideoPlayer>();
-        player = GameObject.FindGameObjectWithTag("Player");
-        monsterSprite = transform.Find("MonsterSprite").gameObject;
-        jumpscareCanvas = transform.Find("JumpScares Canvas").GetComponent<Canvas>();
 
         // Adjust the NavMeshAgent2D parameters for smoother movement
         agent.acceleration = 20f;
