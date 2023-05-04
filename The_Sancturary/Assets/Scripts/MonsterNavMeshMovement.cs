@@ -9,7 +9,7 @@ using UnityEngine.AI;
 
 public class MonsterNavMeshMovement : MonoBehaviour
 {
-    public GameObject player;
+    private GameObject player;
     public Canvas jumpscareCanvas;
     public VideoPlayer jumpscareVideo;
     public GameObject monsterSprite;
@@ -34,6 +34,7 @@ public class MonsterNavMeshMovement : MonoBehaviour
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         animator = monsterSprite.GetComponent<Animator>();
         jumpscareCanvas.GetComponent<CanvasGroup>().alpha = 0;
+        player = GameObject.FindGameObjectWithTag("Player");
 
         // Adjust the NavMeshAgent2D parameters for smoother movement
         agent.acceleration = 20f;
