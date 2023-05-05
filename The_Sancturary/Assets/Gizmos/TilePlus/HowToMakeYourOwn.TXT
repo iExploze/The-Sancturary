@@ -1,0 +1,26 @@
+To apply this icon (or any other) to any of your subclasses
+ of TilePlusBase so that custom icons show up in inspectors:
+
+Using a namespace:
+create a subfolder under 'Assets/Gizmos' with the name of your
+namespace (as is here, in Assets/Gizmos/TilePlus). 
+
+{So don't put them in this folder or it won't work. Unless for 
+some reason you used this namespace for your code instead of
+using a 'using' statement.}
+
+Place a .png file with the icon in that folder.
+
+Without a namespace: place the png in the Assets/Gizmos folder.
+
+Naming: name of your asset <space> Icon
+
+example:  MyCustomTileClassName Icon
+
+the space between the end of the class name and the word Icon 
+(not icon, must be Icon) is important.
+
+
+Note: keep it small, like 64x64, and obviously this applies to
+any custom asset. Import should have Texture Type set to
+Editor GUI and Legacy GUI
