@@ -1,14 +1,17 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class ExitTrigger : MonoBehaviour
 {
+    public UnityEngine.Rendering.Universal.Light2D exitLight;
+    public float requiredLightIntensity = 1f;
     public string nextScene;
     public string survivalPlayerPrefKey = "Survived";
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && IsExitLightOn())
         {
             if (PlayerSurvived())
             {
@@ -22,6 +25,11 @@ public class ExitTrigger : MonoBehaviour
 
             SceneManager.LoadScene(nextScene);
         }
+    }
+
+    private bool IsExitLightOn()
+    {
+        return exitLight.intensity >= requiredLightIntensity;
     }
 
     private bool PlayerSurvived()

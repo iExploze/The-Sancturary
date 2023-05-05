@@ -109,7 +109,6 @@ public class YousseffController : MonoBehaviour
 
     void Move()
     {
-        Debug.Log("going to player");
         if (cooldownCount >= dashCooldown)
                 {
                     StartCoroutine(DashSequence());
@@ -130,7 +129,6 @@ public class YousseffController : MonoBehaviour
 
     void Wanderer()
     {
-        Debug.Log("wandering");
         Vector2 randomPoint = Random.insideUnitCircle * wanderAreaRadius;
 
             // Set the destination of the agent to the random point

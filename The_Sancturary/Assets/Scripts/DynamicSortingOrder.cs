@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class DynamicSortingOrder : MonoBehaviour
 {
-    public int sortingOrderBase = 5000;
-    public int offset = 0;
+    private int sortingOrderBase = 5000;
+    private int offset = 1000;
     private SpriteRenderer spriteRenderer;
 
     private void Start()

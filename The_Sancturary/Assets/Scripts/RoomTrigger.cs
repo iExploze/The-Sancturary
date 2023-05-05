@@ -17,7 +17,6 @@ public class RoomTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             cameraScript.roomBounds = roomCollider;
-            cameraMaskScript.roomBounds = roomCollider;
         }
     }
 }

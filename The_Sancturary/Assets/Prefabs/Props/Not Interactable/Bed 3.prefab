@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8511820991893814078}
   - component: {fileID: 2945492463939357774}
   - component: {fileID: 3991443470552853417}
+  - component: {fileID: -890510979882724844}
   m_Layer: 0
   m_Name: Bed 3
   m_TagString: Untagged
@@ -128,3 +129,17 @@ MonoBehaviour:
   m_Area: 1
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
+--- !u!114 &-890510979882724844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 838639666331759919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db608a6c0f1256a40988e21d55e96d4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingOrderBase: 5000
+  offset: 0

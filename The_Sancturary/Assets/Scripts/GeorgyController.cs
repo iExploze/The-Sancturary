@@ -6,7 +6,6 @@ using UnityEngine.Video;
 using UnityEngine.SceneManagement;
 using UnityEngine.AI;
 
-
 public class GeorgyController : MonoBehaviour
 {
     private GameObject player;
@@ -27,10 +26,18 @@ public class GeorgyController : MonoBehaviour
     private UnityEngine.AI.NavMeshAgent agent;
     private Animator animator;
 
-    private LockerInteraction lockerInteraction;
+    public float chaseRadius = 20f;
+    public float viewRadius = 10f;
+    private bool hasSeenPlayer = false;
+
+    private bool returningToLastSeenSpot = false;
+    private Vector3 lastSeenSpot;
+
+    private Vector2 startspot;
 
     void Start()
     {
+        startspot = transform.position;
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         animator = monsterSprite.GetComponent<Animator>();
         jumpscareCanvas.GetComponent<CanvasGroup>().alpha = 0;
@@ -41,54 +48,48 @@ public class GeorgyController : MonoBehaviour
         agent.angularSpeed = 600f;
         agent.autoBraking = false;
 
-        lockerInteraction = FindObjectOfType<LockerInteraction>();
+        // Make the monster wander right away at the start
+        Wanderer();
     }
 
     void Update()
     {
-        // Check if the player is hiding
-        if (player.GetComponent<PlayerMovement>().isHiding)
+        float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
+        if (distanceToPlayer < jumpscareDistanceThreshold && CanSeePlayer())
         {
-            // Wander around randomly
-            if (!agent.pathPending && agent.remainingDistance < 2f)
+            Jumpscare();
+        }
+        if (CanSeePlayer())
+        {
+            lastSeenSpot = player.transform.position;
+            chasePlayer();
+        }
+        else if (distanceToPlayer > viewRadius && distanceToPlayer < chaseRadius)
+        {
+            if (player.GetComponent<PlayerMovement>().isHiding && hasSeenPlayer && !returningToLastSeenSpot)
+            {
+                agent.SetDestination(lastSeenSpot);
+                returningToLastSeenSpot = true;
+            }
+            else if (!player.GetComponent<PlayerMovement>().isHiding && hasSeenPlayer)
+            {
+                chasePlayer();
+            }
+            else if (HasReachedDestination())
             {
                 Wanderer();
             }
         }
         else
         {
-            // Check the distance to the player
-            float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
-
-            if (distanceToPlayer > jumpscareDistanceThreshold)
+            if (IsOutsideWanderArea())
             {
-                // Start chasing the player
-                if (!isSlowed && distanceToPlayer <= slowDownDistance)
-                {
-                    StartCoroutine(SlowDownMonster());
-                }
-
-                agent.SetDestination(player.transform.position);
-
-                Vector2 velocity = agent.velocity;
-                animator.SetFloat("Horizontal", velocity.x);
-                animator.SetFloat("Vertical", velocity.y);
-                animator.SetFloat("Speed", velocity.sqrMagnitude);
+                ReturnToWanderArea();
             }
-            else
+            else if (HasReachedDestination())
             {
-                // Stop the monster movement
-                    agent.isStopped = true;
-
-                    // Trigger the jumpscare video
-                    CanvasGroup canvasGroup = jumpscareCanvas.GetComponent<CanvasGroup>();
-                    canvasGroup.alpha = 1;
-                    jumpscareVideo.Play();
-
-                    // Set the "Speed" parameter to zero to stop the walking animation
-                    animator.SetFloat("Speed", 0f);
-                    // Wait for the jumpscare video to finish, then transition to the death scene
-                    StartCoroutine(WaitForJumpscare());
+                Wanderer();
+                hasSeenPlayer = false;
             }
         }
 
@@ -98,13 +99,57 @@ public class GeorgyController : MonoBehaviour
         // Constrain angular movement for the MonsterSprite GameObject
         monsterSprite.transform.localRotation = Quaternion.identity;
     }
+    bool HasReachedDestination()
+    {
+        if (!agent.pathPending)
+        {
+            if (agent.remainingDistance <= agent.stoppingDistance)
+            {
+                if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    void chasePlayer()
+    {
+        agent.SetDestination(player.transform.position);
 
+        Vector2 velocity = agent.velocity;
+        animator.SetFloat("Horizontal", velocity.x);
+        animator.SetFloat("Vertical", velocity.y);
+        animator.SetFloat("Speed", velocity.sqrMagnitude);
 
+        if (!isSlowed)
+        {
+            StartCoroutine(SlowDownMonster());
+        }
+    }
+
+    void Jumpscare()
+    {
+        // Stop the monster movement
+                agent.isStopped = true;
+
+                // Trigger the jumpscare video
+                CanvasGroup canvasGroup = jumpscareCanvas.GetComponent<CanvasGroup>();
+                canvasGroup.alpha = 1;
+                jumpscareVideo.Play();
+
+                // Set the "Speed" parameter to zero to stop the walking animation
+                animator.SetFloat("Speed", 0f);
+                // Wait for the jump
+                // Wait for the jumpscare video to finish, then transition to the death scene
+                StartCoroutine(WaitForJumpscare());
+    }
 
     void Wanderer()
     {
-        // Get a random point within the specified area
-        Vector2 randomPoint = Random.insideUnitCircle * wanderAreaRadius;
+        Debug.Log("wander");
+        // Get a random point within the specified area around the start spot
+        Vector2 randomPoint = startspot + Random.insideUnitCircle * wanderAreaRadius;
 
         // Set the destination of the agent to the random point
         NavMeshHit hit;
@@ -119,8 +164,6 @@ public class GeorgyController : MonoBehaviour
         animator.SetFloat("Vertical", velocity.y);
         animator.SetFloat("Speed", velocity.sqrMagnitude);
     }
-
-
 
     IEnumerator SlowDownMonster()
     {
@@ -159,5 +202,40 @@ public class GeorgyController : MonoBehaviour
 
         // Load the death scene
         SceneManager.LoadScene(deathSceneName);
+    }
+
+    bool IsOutsideWanderArea()
+    {
+        float distanceToStart = Vector2.Distance(transform.position, startspot);
+        return distanceToStart > wanderAreaRadius;
+    }
+
+    void ReturnToWanderArea()
+    {
+        agent.SetDestination(startspot);
+
+        Vector2 velocity = agent.velocity;
+        animator.SetFloat("Horizontal", velocity.x);
+        animator.SetFloat("Vertical", velocity.y);
+        animator.SetFloat("Speed", velocity.sqrMagnitude);
+    }
+
+
+    bool CanSeePlayer()
+    {
+        if(player.GetComponent<PlayerMovement>().isHiding)
+        {
+            return false;
+        }
+
+        float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
+
+        if (distanceToPlayer <= viewRadius)
+        {
+            hasSeenPlayer = true; // Set this variable to true when the player is seen
+            return true;
+        }
+
+        return false;
     }
 }
