@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5190157381254205750}
   m_Layer: 8
   m_Name: Ethan Monster
-  m_TagString: Monster
+  m_TagString: Traps
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

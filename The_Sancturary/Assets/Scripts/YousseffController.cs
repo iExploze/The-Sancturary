@@ -8,81 +8,64 @@ using UnityEngine.AI;
 
 public class YousseffController : MonoBehaviour
 {
-    private GameObject player;
+    public GameObject player;
     public Canvas jumpscareCanvas;
     public VideoPlayer jumpscareVideo;
     public GameObject monsterSprite;
-    public float jumpscareDistanceThreshold = 0.7f;
+    public float jumpscareDistanceThreshold = 1f;
     public float wanderAreaRadius = 10f;
     public string deathSceneName;
-    public float chargeUpTime = 2.5f;
-    public float dashCooldown = 10f;
-    public float dashDuration = 0.3f;
-    public float dechargeTime = 2.5f;
-    public float NormalSpeed = 0.8f;
-    public float DashSpeed = 10f;
     public string survivalPlayerPrefKey = "Survived";
-    private UnityEngine.AI.NavMeshAgent agent;
+
+    public float normalSpeed = 0.5f;
+    public float dashSpeed = 10f;
+    public float dashCooldown = 5f;
+    public float chargeUpTime = 1f;
+    public float dashDuration = 0.3f;
+    public float dechargeTime = 1f;
+
+    private NavMeshAgent agent;
     private Animator animator;
-    private float cooldownCount = 7f;
+    private float cooldownCount = 0f;
+
+    private Transform monsterSpriteTransform;
 
     void Start()
     {
-        agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        animator = monsterSprite.GetComponent<Animator>();
-        jumpscareCanvas.GetComponent<CanvasGroup>().alpha = 0;
-        player = GameObject.FindGameObjectWithTag("Player");
+        agent = GetComponent<NavMeshAgent>();
+        animator = GetComponentInChildren<Animator>();
+        monsterSpriteTransform = monsterSprite.transform;
 
-        // Adjust the NavMeshAgent2D parameters for smoother movement
         agent.acceleration = 20f;
         agent.angularSpeed = 600f;
         agent.autoBraking = false;
+        agent.speed = normalSpeed;
+
+        jumpscareCanvas.GetComponent<CanvasGroup>().alpha = 0;
     }
 
     void Update()
     {
-        // Check if the player is hiding
         if (player.GetComponent<PlayerMovement>().isHiding)
         {
-            //Wanderer();
+            Wanderer();
         }
         else
         {
-            // Check the distance to the player
             float distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
 
             if (distanceToPlayer > jumpscareDistanceThreshold)
             {
-                //start the dash
-                cooldownCount += Time.deltaTime;
-                if (cooldownCount >= dashCooldown)
-                {
-                    StartCoroutine(ChargeUpDash());
-                }
-                else
-                {
-                    agent.speed = NormalSpeed;
-                    agent.SetDestination(player.transform.position);
-                    Vector2 velocity = agent.velocity;
-                    animator.SetFloat("Horizontal", velocity.x);
-                    animator.SetFloat("Vertical", velocity.y);
-                    animator.SetFloat("Speed", velocity.sqrMagnitude);
-                }
+                Move();
             }
             else
             {
-                // Stop the monster movement
-                    agent.isStopped = true;
-
-                    // Trigger the jumpscare video
-                    CanvasGroup canvasGroup = jumpscareCanvas.GetComponent<CanvasGroup>();
-                    canvasGroup.alpha = 1;
-                    jumpscareVideo.Play();
-
-                    // Set the "Speed" parameter to zero to stop the walking animation
-                    animator.SetFloat("Speed", 0f);
-                    // Wait for the jumpscare video to finish, then transition to the death scene
-                    StartCoroutine(WaitForJumpscare());
+                agent.isStopped = true;
+                animator.SetFloat("Speed", 0f);
+                CanvasGroup canvasGroup = jumpscareCanvas.GetComponent<CanvasGroup>();
+                canvasGroup.alpha = 1;
+                jumpscareVideo.Play();
+                StartCoroutine(WaitForJumpscare());
             }
         }
 
@@ -90,34 +73,94 @@ public class YousseffController : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, 0, 0);
 
         // Constrain angular movement for the MonsterSprite GameObject
-        monsterSprite.transform.localRotation = Quaternion.identity;
+        monsterSpriteTransform.localRotation = Quaternion.identity;
     }
 
+    IEnumerator DashSequence()
+    {
+        // Charge up
+        agent.speed = 0;
+        animator.SetBool("isCharging", true);
+        yield return new WaitForSeconds(chargeUpTime);
+
+        // Pre-dash animation
+        animator.SetTrigger("preDash");
+        yield return new WaitForSeconds(0.1f); // Adjust the duration according to your animation length
+
+        // Dash
+        agent.speed = dashSpeed;
+        animator.SetBool("isDashing", true);
+        yield return new WaitForSeconds(dashDuration);
+
+        // Post-dash animation
+        agent.speed = 0;
+        animator.SetTrigger("postDash");
+        yield return new WaitForSeconds(0.1f); // Adjust the duration according to your animation length
+
+        // Decharge
+        agent.speed = 0;
+        animator.SetBool("isDashing", false);
+        animator.SetBool("isCharging", false);
+        yield return new WaitForSeconds(dechargeTime);
+
+        // Reset cooldown
+        agent.speed = normalSpeed;
+    }
+
+    void Move()
+    {
+        Debug.Log("going to player");
+        if (cooldownCount >= dashCooldown)
+                {
+                    StartCoroutine(DashSequence());
+                    cooldownCount = 0;
+                }
+                else
+                {
+                    cooldownCount += Time.deltaTime;
+                    agent.SetDestination(player.transform.position);
+
+                    Vector2 velocity = agent.velocity;
+                    animator.SetFloat("Horizontal", velocity.x);
+                    animator.SetFloat("Vertical", velocity.y);
+                    animator.SetFloat("Speed", velocity.sqrMagnitude);
+                }
+    }    
 
 
     void Wanderer()
     {
-        // Get a random point within the specified area
+        Debug.Log("wandering");
         Vector2 randomPoint = Random.insideUnitCircle * wanderAreaRadius;
 
-        // Set the destination of the agent to the random point
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(randomPoint, out hit, 2.0f, NavMesh.AllAreas))
+            // Set the destination of the agent to the random point
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomPoint, out hit, 2.0f, NavMesh.AllAreas))
+            {
+                agent.SetDestination(hit.position);
+            }
+        if (cooldownCount >= dashCooldown)
         {
-            agent.SetDestination(hit.position);
+            StartCoroutine(DashSequence());
+            cooldownCount = 0;
         }
+        else
+        {
+            cooldownCount += Time.deltaTime;
+            // Get a random point within the specified area
 
-        // Set the animator "Speed" parameter to a non-zero value to play the walking animation
-        Vector2 velocity = agent.velocity;
-        animator.SetFloat("Horizontal", velocity.x);
-        animator.SetFloat("Vertical", velocity.y);
-        animator.SetFloat("Speed", velocity.sqrMagnitude);
+            // Set the animator "Speed" parameter to a non-zero value to play the walking animation
+            Vector2 velocity = agent.velocity;
+            animator.SetFloat("Horizontal", velocity.x);
+            animator.SetFloat("Vertical", velocity.y);
+            animator.SetFloat("Speed", velocity.sqrMagnitude);
+        }
     }
 
     IEnumerator WaitForJumpscare()
     {
         // Wait for the length of the jumpscare video
-        yield return new WaitForSeconds((float)jumpscareVideo.length-0.3f);
+        yield return new WaitForSeconds((float)jumpscareVideo.length - 0.3f);
 
         // Set the PlayerPrefs value for the survival status to 0 (not survived)
         PlayerPrefs.SetInt(survivalPlayerPrefKey, 0);
@@ -126,52 +169,4 @@ public class YousseffController : MonoBehaviour
         // Load the death scene
         SceneManager.LoadScene(deathSceneName);
     }
-
-    IEnumerator ChargeUpDash()
-    {
-        agent.speed = 0;
-        animator.SetBool("isCharging", true);
-
-        // Set the "Speed" parameter to 0 to stop the walking animation
-        animator.SetFloat("Speed", 0f);
-
-        yield return new WaitForSeconds(chargeUpTime);
-        StartCoroutine(PerformDash());
-    }
-
-
-    IEnumerator PerformDash()
-    {
-        animator.SetBool("isCharging", true);
-        agent.speed = DashSpeed;
-        Debug.Log(agent.speed);
-        agent.SetDestination(player.transform.position);
-
-        Vector2 velocity = agent.velocity;
-        animator.SetFloat("Horizontal", velocity.x);
-        animator.SetFloat("Vertical", velocity.y);
-        animator.SetFloat("Speed", velocity.sqrMagnitude);
-
-        // Set the animation speed based on the ratio of dashDuration to the actual animation length
-        StartCoroutine(DeChargeDash());
-        yield return new WaitForSeconds(dashDuration);
-        animator.SetBool("isCharging", false);
-    }
-
-    IEnumerator DeChargeDash()
-    {
-        agent.speed = 0;
-        agent.velocity = Vector3.zero; // Stop the agent's movement
-        animator.SetBool("isCharging", false);
-
-        // Set the "Speed" parameter to 0 to stop the walking animation
-        animator.SetFloat("Speed", 0f);
-
-        yield return new WaitForSeconds(dechargeTime);
-
-        // Reset the agent's speed to NormalSpeed
-        agent.speed = NormalSpeed;
-        cooldownCount = 0;
-    }
-
 }
