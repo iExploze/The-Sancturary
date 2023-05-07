@@ -28,6 +28,17 @@ public class CameraFollow : MonoBehaviour
             float maxY = roomBounds.bounds.max.y - camHalfHeight;
 
             Vector3 clampedPosition = new Vector3(Mathf.Clamp(transform.position.x, minX, maxX), Mathf.Clamp(transform.position.y, minY, maxY), transform.position.z);
+
+            // Center the camera in the room if the room's size is less than the camera's bounds
+            if (roomBounds.size.x < camHalfWidth * 2f)
+            {
+                clampedPosition.x = roomBounds.bounds.center.x;
+            }
+            if (roomBounds.size.y < camHalfHeight * 2f)
+            {
+                clampedPosition.y = roomBounds.bounds.center.y;
+            }
+
             transform.position = clampedPosition;
         }
     }

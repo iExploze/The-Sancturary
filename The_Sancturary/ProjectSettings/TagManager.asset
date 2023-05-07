@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Monster
   - Prop
+  - Traps
   layers:
   - Default
   - TransparentFX
@@ -30,9 +31,9 @@ TagManager:
   - 
   - 
   - Map
+  - Double Walls
   - Walls
   - Floor
-  - 
   - 
   - 
   - 
@@ -42,4 +43,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Floor
+    uniqueID: 145541963
+    locked: 0
+  - name: OuterWalls
+    uniqueID: 3088659079
     locked: 0
