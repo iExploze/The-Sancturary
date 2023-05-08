@@ -283,7 +283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30620795d45f7a542a4bacdb4a44c1dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: Main Scene
+  sceneName: Map 1 Test
 --- !u!1 &314084791
 GameObject:
   m_ObjectHideFlags: 0
@@ -596,12 +596,25 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'How To Play: Get away from the monster in by finding the door and escaping
+  m_text: 'How to player WASD to move, left click to interact,
 
 
-    Tip:
-    there is a light switch somewhere in The Sancturary that will make your life
-    easier :)'
+    If you hear
+    heart beat sounds, it means that a monster is nearby, but it does not mean it
+    knows where you are
+
+    If you hear music, run or hide.
+
+
+    To leave The Sancturary,
+    you will need to find the power, located deep in the sancturary, turn it on by
+    touching it, and the exit will work at the entrance. GLHF:)
+
+
+    Tip: you move
+    faster than the all monsters, and most of rooms that does not have the power
+    switch have monster in them, lastly the power switch is a BARREL (vlad didn''t
+    upload to github)'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

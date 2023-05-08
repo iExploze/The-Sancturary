@@ -119,8 +119,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db608a6c0f1256a40988e21d55e96d4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sortingOrderBase: 5000
-  offset: 0
 --- !u!1 &727458517233630803
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,7 +230,7 @@ MonoBehaviour:
   jumpscareCanvas: {fileID: 0}
   jumpscareVideo: {fileID: 0}
   monsterSprite: {fileID: 727458516595638091}
-  jumpscareDistanceThreshold: 0.8
+  jumpscareDistanceThreshold: 0.7
   wanderAreaRadius: 10
   deathSceneName: End Scene
   survivalPlayerPrefKey: Survived
