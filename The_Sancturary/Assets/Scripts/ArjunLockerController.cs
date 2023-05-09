@@ -1,28 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Video;
+using UnityEngine.SceneManagement;
+using UnityEditor.AI;
+using NavMeshPlus.Components;
+using System;
 
 public class ArjunLockerController : MonoBehaviour
 {   
+    public float navMeshUpdateRadius = 5f;
+    public NavMeshSurface navMeshSurface;
+    public NavMeshModifier navMeshModifier;
+    public Canvas jumpscareCanvas;
+    public VideoPlayer jumpscareVideo;
     public Animator lockerAnimator;
     public string toggleLockerParameter = "ToggleLocker";
-    public GameObject LockerCamera;
+    public string survivalPlayerPrefKey = "Survived";
     private GameObject player;
-    private Vector3 playerPositionWhenHiding;
     private AudioSource audioSource;
     private bool playerIsNearby = false;
     private SpriteRenderer playerSpriteRenderer;
     private Rigidbody2D playerRigidbody2D;
     private Camera playerCamera;
-
-    private bool playerInThisLocker = false;
-    private bool hasBeenActivated = false;
     public float activationDistance = 5f;
-
     public SpriteRenderer spriteRenderer;
     public BoxCollider2D boxCollider;
     public CapsuleCollider2D capsuleCollider;
     private bool playerCame;
+    public string deathSceneName;
+    private bool openingAnimationPlaying = false;
+    private float openingAnimationTimer = 0f;
+    public float jumpscareDelay = 2f;
     void Start()
     {
         spriteRenderer.enabled = false;
@@ -31,6 +41,7 @@ public class ArjunLockerController : MonoBehaviour
         
         audioSource = GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player");
+        jumpscareCanvas.GetComponent<CanvasGroup>().alpha = 0;
         playerSpriteRenderer = player.GetComponent<SpriteRenderer>();
         playerRigidbody2D = player.GetComponent<Rigidbody2D>();
         playerCamera = player.GetComponentInChildren<Camera>();
@@ -55,68 +66,78 @@ public class ArjunLockerController : MonoBehaviour
     private void Update()
     {
         float distanceToPlayer = Vector2.Distance(player.transform.position, transform.position);
-        if(distanceToPlayer < activationDistance)
+        if (distanceToPlayer < activationDistance)
         {
             playerCame = true;
         }
-        if(distanceToPlayer > activationDistance && playerCame)
+        if (distanceToPlayer > activationDistance && playerCame)
         {
             spriteRenderer.enabled = true;
             boxCollider.enabled = true;
             capsuleCollider.enabled = true;
+            //RebakeNavMesh();
         }
-
 
         if (Input.GetMouseButtonDown(0) && !player.GetComponent<PlayerMovement>().isHiding && playerIsNearby)
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
-            if (hit.collider != null && hit.collider.gameObject == gameObject)
+            if (hit.collider != null && hit.collider.gameObject == gameObject && !openingAnimationPlaying)
             {
-                playerInThisLocker = true;
                 StartCoroutine(EnterLocker());
             }
         }
-        else if (Input.GetMouseButtonDown(0) && player.GetComponent<PlayerMovement>().isHiding && playerInThisLocker)
+
+        if (openingAnimationPlaying)
         {
-            playerInThisLocker = false;
-            StartCoroutine(ExitLocker());
+            openingAnimationTimer += Time.deltaTime;
+            if (openingAnimationTimer >= jumpscareDelay && playerIsNearby)
+            {
+                openingAnimationPlaying = false;
+                openingAnimationTimer = 0f;
+                Jumpscare();
+            }
+        }
+    }
+
+    private void RebakeNavMesh()
+    {
+        navMeshModifier.ignoreFromBuild = false;
+        if (navMeshSurface != null)
+        {
+            navMeshSurface.BuildNavMesh();
         }
     }
 
     IEnumerator EnterLocker()
     {
         lockerAnimator.SetTrigger(toggleLockerParameter);
-        //currentLocation = transform.localPosition;
         audioSource.Play();
-        yield return new WaitForSeconds(0.28f);
-        playerPositionWhenHiding = player.transform.position;
+        openingAnimationPlaying = true;
 
-        // Disable Sprite Renderer, Rigidbody2D, and Camera
-        playerSpriteRenderer.enabled = false;
-        playerRigidbody2D.simulated = false;
-        playerCamera.enabled = false;
-        player.GetComponent<PlayerMovement>().isHiding = true;
-        player.transform.position = transform.position;
-
-        LockerCamera.SetActive(true);
-        lockerAnimator.SetTrigger(toggleLockerParameter);
+        yield break;
     }
 
-    IEnumerator ExitLocker()
+    void Jumpscare()
     {
-        lockerAnimator.SetTrigger(toggleLockerParameter);
-        audioSource.Play();
-        yield return new WaitForSeconds(0.28f);
 
-        // Enable Sprite Renderer, Rigidbody2D, and Camera
-        playerSpriteRenderer.enabled = true;
-        playerRigidbody2D.simulated = true;
-        player.GetComponent<PlayerMovement>().isHiding = false;
-        playerCamera.enabled = true;
+        // Trigger the jumpscare video
+        CanvasGroup canvasGroup = jumpscareCanvas.GetComponent<CanvasGroup>();
+        canvasGroup.alpha = 1;
+        jumpscareVideo.Play();
+        StartCoroutine(WaitForJumpscare());
+    }
 
-        LockerCamera.SetActive(false);
-        player.transform.position = playerPositionWhenHiding;
-        lockerAnimator.SetTrigger(toggleLockerParameter);
+    IEnumerator WaitForJumpscare()
+    {
+        // Wait for the length of the jumpscare video
+        yield return new WaitForSeconds((float)jumpscareVideo.length-0.3f);
+
+        // Set the PlayerPrefs value for the survival status to 0 (not survived)
+        PlayerPrefs.SetInt(survivalPlayerPrefKey, 0);
+        PlayerPrefs.Save();
+
+        // Load the death scene
+        SceneManager.LoadScene(deathSceneName);
     }
 }
