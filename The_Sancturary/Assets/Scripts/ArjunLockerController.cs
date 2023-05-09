@@ -2,36 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LockerInteraction : MonoBehaviour
+public class ArjunLockerController : MonoBehaviour
 {   
-    public GameObject insideLockerView;
     public Animator lockerAnimator;
     public string toggleLockerParameter = "ToggleLocker";
-
     public GameObject LockerCamera;
-    public Canvas lockerCanvas;
-
     private GameObject player;
     private Vector3 playerPositionWhenHiding;
-
     private AudioSource audioSource;
-
     private bool playerIsNearby = false;
-
     private SpriteRenderer playerSpriteRenderer;
     private Rigidbody2D playerRigidbody2D;
     private Camera playerCamera;
 
     private bool playerInThisLocker = false;
+    private bool hasBeenActivated = false;
+    public float activationDistance = 5f;
 
+    public SpriteRenderer spriteRenderer;
+    public BoxCollider2D boxCollider;
+    public CapsuleCollider2D capsuleCollider;
+    private bool playerCame;
     void Start()
     {
+        spriteRenderer.enabled = false;
+        boxCollider.enabled = false;
+        capsuleCollider.enabled = false;
+        
         audioSource = GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerSpriteRenderer = player.GetComponent<SpriteRenderer>();
         playerRigidbody2D = player.GetComponent<Rigidbody2D>();
         playerCamera = player.GetComponentInChildren<Camera>();
-        lockerCanvas.enabled = true;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -52,9 +54,21 @@ public class LockerInteraction : MonoBehaviour
 
     private void Update()
     {
+        float distanceToPlayer = Vector2.Distance(player.transform.position, transform.position);
+        if(distanceToPlayer < activationDistance)
+        {
+            playerCame = true;
+        }
+        if(distanceToPlayer > activationDistance && playerCame)
+        {
+            spriteRenderer.enabled = true;
+            boxCollider.enabled = true;
+            capsuleCollider.enabled = true;
+        }
+
+
         if (Input.GetMouseButtonDown(0) && !player.GetComponent<PlayerMovement>().isHiding && playerIsNearby)
         {
-            // Cast a ray from the mouse position to check if it hits the locker
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
             if (hit.collider != null && hit.collider.gameObject == gameObject)
@@ -87,12 +101,10 @@ public class LockerInteraction : MonoBehaviour
 
         LockerCamera.SetActive(true);
         lockerAnimator.SetTrigger(toggleLockerParameter);
-        insideLockerView.SetActive(true);
     }
 
     IEnumerator ExitLocker()
     {
-        insideLockerView.SetActive(false);
         lockerAnimator.SetTrigger(toggleLockerParameter);
         audioSource.Play();
         yield return new WaitForSeconds(0.28f);

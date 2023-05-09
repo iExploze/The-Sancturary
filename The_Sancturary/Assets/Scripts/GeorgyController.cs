@@ -147,7 +147,6 @@ public class GeorgyController : MonoBehaviour
 
     void Wanderer()
     {
-        Debug.Log("wander");
         // Get a random point within the specified area around the start spot
         Vector2 randomPoint = startspot + Random.insideUnitCircle * wanderAreaRadius;
 
