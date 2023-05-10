@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class LockerInteraction : MonoBehaviour
 {   
-    public GameObject insideLockerView;
     public Animator lockerAnimator;
     public string toggleLockerParameter = "ToggleLocker";
 
     public GameObject LockerCamera;
-    public Canvas lockerCanvas;
 
     private GameObject player;
     private Vector3 playerPositionWhenHiding;
@@ -31,7 +29,6 @@ public class LockerInteraction : MonoBehaviour
         playerSpriteRenderer = player.GetComponent<SpriteRenderer>();
         playerRigidbody2D = player.GetComponent<Rigidbody2D>();
         playerCamera = player.GetComponentInChildren<Camera>();
-        lockerCanvas.enabled = true;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -87,12 +84,10 @@ public class LockerInteraction : MonoBehaviour
 
         LockerCamera.SetActive(true);
         lockerAnimator.SetTrigger(toggleLockerParameter);
-        insideLockerView.SetActive(true);
     }
 
     IEnumerator ExitLocker()
     {
-        insideLockerView.SetActive(false);
         lockerAnimator.SetTrigger(toggleLockerParameter);
         audioSource.Play();
         yield return new WaitForSeconds(0.28f);
