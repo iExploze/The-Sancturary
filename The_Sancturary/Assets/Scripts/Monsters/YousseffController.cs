@@ -46,7 +46,7 @@ public class YousseffController : MonoBehaviour
 
     void Update()
     {
-        if (player.GetComponent<PlayerMovement>().isHiding)
+        if (player.GetComponent<PlayerMovement>().isHiding || player.GetComponent<PlayerMovement>().isInCustodianRoom)
         {
             Wanderer();
         }

@@ -14,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
 
     public bool isHiding = false;
 
+    public bool isInCustodianRoom = false;
+
     Vector2 movement;
 
     public Light2D lightToControl;

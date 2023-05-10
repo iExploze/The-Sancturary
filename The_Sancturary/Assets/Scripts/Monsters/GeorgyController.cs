@@ -75,7 +75,7 @@ public class GeorgyController : MonoBehaviour
             {
                 chasePlayer();
             }
-            else if (HasReachedDestination())
+            else if (HasReachedDestination() || player.GetComponent<PlayerMovement>().isInCustodianRoom)
             {
                 Wanderer();
             }
@@ -86,7 +86,7 @@ public class GeorgyController : MonoBehaviour
             {
                 ReturnToWanderArea();
             }
-            else if (HasReachedDestination())
+            else if (HasReachedDestination() || player.GetComponent<PlayerMovement>().isInCustodianRoom)
             {
                 Wanderer();
                 hasSeenPlayer = false;
