@@ -6,6 +6,8 @@ public class CameraFollow : MonoBehaviour
     public BoxCollider2D roomBounds;
     private Camera cam;
 
+    public float yoffset = 0.6f;
+
     void Start()
     {
         cam = GetComponent<Camera>();
@@ -16,7 +18,7 @@ public class CameraFollow : MonoBehaviour
         if (target != null && roomBounds != null)
         {
             // Follow the target's position
-            Vector3 targetPosition = new Vector3(target.position.x, target.position.y, transform.position.z);
+            Vector3 targetPosition = new Vector3(target.position.x, target.position.y+yoffset, transform.position.z);
             transform.position = targetPosition;
 
             // Restrict the camera within the room's bounds

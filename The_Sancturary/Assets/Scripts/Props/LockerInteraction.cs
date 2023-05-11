@@ -10,6 +10,7 @@ public class LockerInteraction : MonoBehaviour
     public GameObject LockerCamera;
 
     private GameObject player;
+    private GameObject playerSprite;
     private Vector3 playerPositionWhenHiding;
 
     private AudioSource audioSource;
@@ -22,11 +23,14 @@ public class LockerInteraction : MonoBehaviour
 
     private bool playerInThisLocker = false;
 
+    public float yoffset = -0.6f;
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player");
-        playerSpriteRenderer = player.GetComponent<SpriteRenderer>();
+        playerSprite = GameObject.FindGameObjectWithTag("PlayerSprite");
+        playerSpriteRenderer = playerSprite.GetComponent<SpriteRenderer>();
         playerRigidbody2D = player.GetComponent<Rigidbody2D>();
         playerCamera = player.GetComponentInChildren<Camera>();
     }
@@ -80,7 +84,7 @@ public class LockerInteraction : MonoBehaviour
         playerRigidbody2D.simulated = false;
         playerCamera.enabled = false;
         player.GetComponent<PlayerMovement>().isHiding = true;
-        player.transform.position = transform.position;
+        player.transform.position = new Vector2(transform.position.x, transform.position.y + yoffset);;
 
         LockerCamera.SetActive(true);
         lockerAnimator.SetTrigger(toggleLockerParameter);
@@ -99,7 +103,7 @@ public class LockerInteraction : MonoBehaviour
         playerCamera.enabled = true;
 
         LockerCamera.SetActive(false);
-        player.transform.position = playerPositionWhenHiding;
+        player.transform.position = new Vector2(playerPositionWhenHiding.x, playerPositionWhenHiding.y);
         lockerAnimator.SetTrigger(toggleLockerParameter);
     }
 }
