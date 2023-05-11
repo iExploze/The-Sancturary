@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public AudioSource walkingSound;
     public bool isHiding = false;
     public bool isInCustodianRoom = false;
+    public Vector2 custodianRoomLoc;
     Vector2 movement;
     public Light2D lightToControl;
     public SpriteRenderer playerSprite;

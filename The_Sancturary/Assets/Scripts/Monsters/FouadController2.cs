@@ -3,8 +3,7 @@ using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.SceneManagement;
 using UnityEngine.AI;
-
-public class GeoController2 : MonoBehaviour
+public class FouadController2 : MonoBehaviour
 {
     private GameObject player;
     [SerializeField] private Canvas jumpscareCanvas;
@@ -27,8 +26,6 @@ public class GeoController2 : MonoBehaviour
 
     private Vector2 startSpot;
     private Vector2 Destination;
-
-    private float custodianRoomRadius = 9f;
     private enum State
     {
         Idle,
@@ -58,117 +55,74 @@ public class GeoController2 : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-            switch (currentState)
-    {
-        case State.Idle:
-            currentState = State.Roam;
-            break;
-        case State.Roam:
-            StopCoroutine(SlowDownMonster());
-            isSlowed = false;
-            if (playerInViewRange() && !isPlayerHiding() && !isPlayerInCustodian())
-            {
-                hasSeenPlayer = true;
-                currentState = State.Chase;
+        Debug.Log(currentState);
+        Debug.Log(playerInViewRange());
+        switch (currentState)
+        {
+            case State.Idle:
+                currentState = State.Roam;
                 break;
-            }
-            else if (HasReachedDestination())
-            {
-                Destination = RandomLocation();
-            }
-
-            isSlowed = false;
-            break;
-        case State.Chase:
-            Destination = playerLocation();
-            if (!isSlowed)
-            {
-                StartCoroutine(SlowDownMonster());
-            }
-            if (isPlayerInCustodian())
-            {
+            case State.Roam:
                 StopCoroutine(SlowDownMonster());
-                isSlowed = false;
-                hasSeenPlayer = false;
-                Destination = getPlayerCustodianLocation();
-                if (inCustodianRaidus())
+                if(playerInViewRange() && !isPlayerHiding())
                 {
-                    Destination = RandomLocation();
-                    currentState = State.Roam;
+                    hasSeenPlayer = true;
+                    currentState = State.Chase;
                     break;
                 }
-            }
-            else
-            {
-                if (!playerInViewRange())
+                else if(HasReachedDestination())
                 {
-                    if (isPlayerHiding())
+                    Destination = RandomLocation();
+                }
+                break;
+            case State.Chase:
+                Destination = playerLocation();
+                if(!isSlowed)
+                {
+                    StartCoroutine(SlowDownMonster());
+                }
+                if(!playerInViewRange())
+                {
+                    if(isPlayerHiding())
                     {
-                        StopCoroutine(SlowDownMonster());
-                        isSlowed = false;
                         hasSeenPlayer = false;
                     }
-                    if (playerOutOfChaseRange())
+                    if(playerOutOfChaseRange())
                     {
                         hasSeenPlayer = false;
                         currentState = State.Roam;
                         break;
                     }
                 }
-                else if (playerInAttackRange())
+                else if(playerInAttackRange())
                 {
                     currentState = State.Attack;
                     break;
                 }
-            }
-            break;
-        case State.Attack:
-            Destination = playerLocation();
-            if (hasSeenPlayer)
-                kill();
-            else
-                hasSeenPlayer = false;
-            currentState = State.Roam;
-            break;
-    }
-
-    // Set the animator "Speed" parameter to a non-zero value to play the walking animation
-    agent.SetDestination(Destination);
-
-    Vector2 velocity = agent.velocity;
-    animator.SetFloat("Horizontal", velocity.x);
-    animator.SetFloat("Vertical", velocity.y);
-    animator.SetFloat("Speed", velocity.sqrMagnitude);
-
-    // Constrain rotation on the Y and Z axes for the parent GameObject
-    transform.rotation = Quaternion.Euler(0, 0, 0);
-
-    // Constrain angular movement for the MonsterSprite GameObject
-    monsterSprite.transform.localRotation = Quaternion.identity;
-    }
-
-    private bool inCustodianRaidus()
-    {
-        float distanctToCustodian = Vector2.Distance(getPlayerCustodianLocation(), transform.position);
-        if(distanctToCustodian <= custodianRoomRadius)
-        {
-            return true;
+                break;
+            case State.Attack:
+                Destination = playerLocation();
+                if(hasSeenPlayer)
+                    kill();
+                else
+                    hasSeenPlayer = false;
+                    currentState = State.Roam;
+                break;
         }
-        return false;
-    }
 
-    private bool isPlayerInCustodian()
-    {
-        return player.GetComponent<PlayerMovement>().isInCustodianRoom;
-    }
+        // Set the animator "Speed" parameter to a non-zero value to play the walking animation
+        agent.SetDestination(Destination);
 
-    private Vector2 getPlayerCustodianLocation()
-    {
-        if(isPlayerInCustodian())
-            return player.GetComponent<PlayerMovement>().custodianRoomLoc;
-        else
-            Debug.Log("Player Not In Custodian Room");
-            return Vector2.one;
+        Vector2 velocity = agent.velocity;
+        animator.SetFloat("Horizontal", velocity.x);
+        animator.SetFloat("Vertical", velocity.y);
+        animator.SetFloat("Speed", velocity.sqrMagnitude);
+
+        // Constrain rotation on the Y and Z axes for the parent GameObject
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+
+        // Constrain angular movement for the MonsterSprite GameObject
+        monsterSprite.transform.localRotation = Quaternion.identity;
     }
 
     private bool isPlayerHiding()
@@ -257,7 +211,7 @@ public class GeoController2 : MonoBehaviour
         agent.speed = slowedSpeed;
 
         // Wait for a random duration between 10 and 20 seconds
-        float slowDuration = Random.Range(2, 5);
+        float slowDuration = Random.Range(10f, 20f);
         yield return new WaitForSeconds(slowDuration);
 
         // Restore the monster's speed
@@ -278,6 +232,18 @@ public class GeoController2 : MonoBehaviour
         // Load the death scene
         SceneManager.LoadScene(deathSceneName);
     }
+
+    private bool IsOutsideWanderArea()
+    {
+        float distanceToStart = Vector2.Distance(transform.position, startSpot);
+        return distanceToStart > wanderAreaRadius;
+    }
+
+    private Vector2 startLocation()
+    {
+        return startSpot;
+    }
+
 
     private bool playerInViewRange()
     {
