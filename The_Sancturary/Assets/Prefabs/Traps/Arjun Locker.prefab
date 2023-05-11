@@ -32,7 +32,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3958308019463758559}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -63.5, y: 21.64156, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: -1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -124,15 +124,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07e073522e6a7084ea726fab75ce5cdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshUpdateRadius: 5
-  navMeshSurface: {fileID: 0}
-  navMeshModifier: {fileID: 1570049899359027519}
   jumpscareCanvas: {fileID: 0}
   jumpscareVideo: {fileID: 0}
   lockerAnimator: {fileID: 3958308019463758564}
   toggleLockerParameter: ToggleLocker
   survivalPlayerPrefKey: Survived
-  activationDistance: 3.6
+  activationDistance: 3.8
   spriteRenderer: {fileID: 3958308019463758561}
   boxCollider: {fileID: 1570049899359027516}
   capsuleCollider: {fileID: 3958308019463758552}

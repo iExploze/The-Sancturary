@@ -84,7 +84,7 @@ public class LockerInteraction : MonoBehaviour
         playerRigidbody2D.simulated = false;
         playerCamera.enabled = false;
         player.GetComponent<PlayerMovement>().isHiding = true;
-        player.transform.position = new Vector2(transform.position.x, transform.position.y + yoffset);;
+        player.transform.position = new Vector2(transform.position.x, transform.position.y - yoffset);;
 
         LockerCamera.SetActive(true);
         lockerAnimator.SetTrigger(toggleLockerParameter);

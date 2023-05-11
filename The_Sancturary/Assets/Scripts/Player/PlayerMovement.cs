@@ -6,20 +6,14 @@ using UnityEngine.Rendering.Universal;
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
-
     public Rigidbody2D Rb;
     public Animator animator;
-
     public AudioSource walkingSound;
-
     public bool isHiding = false;
-
     public bool isInCustodianRoom = false;
-
     Vector2 movement;
-
     public Light2D lightToControl;
-
+    public SpriteRenderer playerSprite;
     private void Start()
     {
         

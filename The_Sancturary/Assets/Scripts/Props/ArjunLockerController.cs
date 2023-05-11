@@ -9,9 +9,6 @@ using System;
 
 public class ArjunLockerController : MonoBehaviour
 {   
-    public float navMeshUpdateRadius = 5f;
-    public NavMeshSurface navMeshSurface;
-    public NavMeshModifier navMeshModifier;
     public Canvas jumpscareCanvas;
     public VideoPlayer jumpscareVideo;
     public Animator lockerAnimator;
@@ -74,7 +71,6 @@ public class ArjunLockerController : MonoBehaviour
             spriteRenderer.enabled = true;
             boxCollider.enabled = true;
             capsuleCollider.enabled = true;
-            //RebakeNavMesh();
         }
 
         if (Input.GetMouseButtonDown(0) && !player.GetComponent<PlayerMovement>().isHiding && playerIsNearby)
@@ -96,15 +92,6 @@ public class ArjunLockerController : MonoBehaviour
                 openingAnimationTimer = 0f;
                 Jumpscare();
             }
-        }
-    }
-
-    private void RebakeNavMesh()
-    {
-        navMeshModifier.ignoreFromBuild = false;
-        if (navMeshSurface != null)
-        {
-            navMeshSurface.BuildNavMesh();
         }
     }
 

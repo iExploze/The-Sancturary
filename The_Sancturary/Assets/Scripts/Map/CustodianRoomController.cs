@@ -5,7 +5,6 @@ using UnityEngine;
 public class CustodianRoomController : MonoBehaviour
 {
     private GameObject player;
-    private bool playerIsNearby = false;
     private AudioSource audioSource;
 
     void Start()
