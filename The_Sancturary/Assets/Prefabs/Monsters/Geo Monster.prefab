@@ -88,7 +88,7 @@ MonoBehaviour:
   jumpscareCanvas: {fileID: 0}
   jumpscareVideo: {fileID: 0}
   monsterSprite: {fileID: 1681697781288743960}
-  jumpscareDistanceThreshold: 1
+  jumpscareDistanceThreshold: 0.7
   wanderAreaRadius: 5
   deathSceneName: End Scene
   slowDownDistance: 20
@@ -238,5 +238,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db608a6c0f1256a40988e21d55e96d4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sortingOrderBase: 5000
-  offset: 0

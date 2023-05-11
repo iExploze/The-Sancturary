@@ -7,6 +7,7 @@ TagManager:
   - Monster
   - Prop
   - Traps
+  - PlayerSprite
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Traps
   - 
   - 
   - 
