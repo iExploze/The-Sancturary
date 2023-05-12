@@ -49,6 +49,9 @@ public class GeoController2 : MonoBehaviour
 
     private void Start()
     {
+        agent.acceleration = 20f;
+        agent.angularSpeed = 600f;
+
         currentState = State.Roam;
         startSpot = transform.position;
         agent.speed = normalSpeed;
@@ -80,6 +83,7 @@ public class GeoController2 : MonoBehaviour
             isSlowed = false;
             break;
         case State.Chase:
+            setPlayerChased(true);
             Destination = playerLocation();
             if (!isSlowed)
             {
@@ -94,6 +98,7 @@ public class GeoController2 : MonoBehaviour
                 if (inCustodianRaidus())
                 {
                     Destination = RandomLocation();
+                    setPlayerChased(false);
                     currentState = State.Roam;
                     break;
                 }
@@ -111,6 +116,7 @@ public class GeoController2 : MonoBehaviour
                     if (playerOutOfChaseRange())
                     {
                         hasSeenPlayer = false;
+                        setPlayerChased(false);
                         currentState = State.Roam;
                         break;
                     }
@@ -128,6 +134,7 @@ public class GeoController2 : MonoBehaviour
                 kill();
             else
                 hasSeenPlayer = false;
+            setPlayerChased(false);
             currentState = State.Roam;
             break;
     }
@@ -289,5 +296,10 @@ public class GeoController2 : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void setPlayerChased(bool temp)
+    {
+        player.GetComponent<PlayerMovement>().isChased = temp;
     }
 }

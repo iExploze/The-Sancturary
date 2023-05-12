@@ -33,6 +33,10 @@ public class FouadController2 : MonoBehaviour
     private Vector2 Destination;
 
     private float custodianRoomRadius = 9f;
+
+    [SerializeField] private AudioSource WalkSound;
+    [SerializeField] private AudioSource ChargeSound;
+    [SerializeField] private AudioSource DashUpSound;
     private enum State
     {
         Idle,
@@ -66,7 +70,6 @@ public class FouadController2 : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        Debug.Log(agent.speed);
         switch (currentState)
         {
             case State.Idle:
@@ -92,6 +95,7 @@ public class FouadController2 : MonoBehaviour
                     if (inCustodianRaidus())
                     {
                         Destination = RandomLocation();
+                        setPlayerChased(false);
                         currentState = State.Roam;
                         break;
                     }
@@ -100,6 +104,7 @@ public class FouadController2 : MonoBehaviour
                 {
                     if (playerOutOfChaseRange())
                     {
+                        setPlayerChased(false);
                         currentState = State.Roam;
                         break;
                     }
@@ -116,6 +121,7 @@ public class FouadController2 : MonoBehaviour
                 {
                     kill();
                 }
+                setPlayerChased(false);
                 currentState = State.Roam;
                 break;
         }
@@ -128,6 +134,7 @@ public class FouadController2 : MonoBehaviour
         }
         else
         {
+            playWalkSound();
             agent.SetDestination(Destination);
             coolDownCount += Time.deltaTime;
             Vector2 velocity = agent.velocity;
@@ -141,6 +148,13 @@ public class FouadController2 : MonoBehaviour
 
         // Constrain angular movement for the MonsterSprite GameObject
         monsterSprite.transform.localRotation = Quaternion.identity;
+    }
+    private void playWalkSound()
+    {
+        if(!WalkSound.isPlaying)
+        {
+            WalkSound.Play();
+        }
     }
 
     private bool inCustodianRaidus()
@@ -243,6 +257,8 @@ public class FouadController2 : MonoBehaviour
 
     IEnumerator DashSequence()
     {
+        ChargeSound.Play();
+        WalkSound.Stop();
         // Charge up
         agent.speed = 0;
         animator.SetBool("isCharging", true);
@@ -252,10 +268,13 @@ public class FouadController2 : MonoBehaviour
         animator.SetTrigger("preDash");
         yield return new WaitForSeconds(0.1f); // Adjust the duration according to your animation length
 
+        DashUpSound.Play();
         // Dash
         agent.speed = dashSpeed;
         animator.SetBool("isDashing", true);
         yield return new WaitForSeconds(dashDuration);
+
+        ChargeSound.Stop();
 
         // Post-dash animation
         agent.speed = 0;
@@ -267,6 +286,7 @@ public class FouadController2 : MonoBehaviour
         animator.SetBool("isDashing", false);
         animator.SetBool("isCharging", false);
         yield return new WaitForSeconds(dechargeTime);
+        DashUpSound.Stop();
 
         // Reset cooldown
         agent.speed = normalSpeed;
@@ -295,5 +315,10 @@ public class FouadController2 : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void setPlayerChased(bool temp)
+    {
+        player.GetComponent<PlayerMovement>().isChased = temp;
     }
 }

@@ -26,6 +26,10 @@ public class HenryController : MonoBehaviour
     private Vector2 Destination;
 
     private float custodianRoomRadius = 9f;
+
+    [SerializeField] private AudioSource normalWalkingAudioSource;
+    [SerializeField] private AudioSource transitionAudioSource;
+
     private enum State
     {
         Idle,
@@ -35,12 +39,12 @@ public class HenryController : MonoBehaviour
     }
 
     private State currentState;
-
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
         animator = monsterSprite.GetComponent<Animator>();
+
         jumpscareCanvas.GetComponent<CanvasGroup>().alpha = 0;
     }
 
@@ -75,14 +79,24 @@ public class HenryController : MonoBehaviour
                 }
                 break;
             case State.Chase:
+                setPlayerChased(true);
                 Destination = playerLocation();
-                if (isPlayerInCustodian() || isPlayerHiding() || !isPlayerMoving())
+                if(isPlayerHiding())
+                {
+                    StartCoroutine(TransitionToNormal());
+                    Destination = RandomLocation();
+                    setPlayerChased(false);
+                    currentState = State.Roam;
+                    break;
+                }
+                else if (isPlayerInCustodian())
                 {
                     Destination = getPlayerCustodianLocation();
                     if (inCustodianRaidus())
                     {
                         StartCoroutine(TransitionToNormal());
                         Destination = RandomLocation();
+                        setPlayerChased(false);
                         currentState = State.Roam;
                         break;
                     }
@@ -92,6 +106,7 @@ public class HenryController : MonoBehaviour
                     if (playerOutOfChaseRange())
                     {
                         StartCoroutine(TransitionToNormal());
+                        setPlayerChased(false);
                         currentState = State.Roam;
                         break;
                     }
@@ -104,11 +119,12 @@ public class HenryController : MonoBehaviour
                 break;
             case State.Attack:
                 Destination = playerLocation();
-                if(!isPlayerHiding() && !isPlayerInCustodian() && !isPlayerMoving())
+                if(!isPlayerHiding() && !isPlayerInCustodian())
                 {
                     kill();
                 }
                 StartCoroutine(TransitionToNormal());
+                setPlayerChased(false);
                 currentState = State.Roam;
                 break;
         }
@@ -127,16 +143,7 @@ public class HenryController : MonoBehaviour
 
     private bool isPlayerMoving()
     {
-        // Get the player's rigidbody2D component
-        Rigidbody2D playerRigidbody = player.GetComponent<Rigidbody2D>();
-
-        // Check if the player's velocity is not zero, meaning they are moving
-        if (playerRigidbody.velocity != Vector2.zero)
-        {
-            return true;
-        }
-
-        return false;
+        return player.GetComponent<PlayerMovement>().isMoving;
     }
 
 
@@ -214,7 +221,7 @@ public class HenryController : MonoBehaviour
         // Stop the monster movement
         agent.isStopped = true;
         // Trigger the jumpscare video
-         CanvasGroup canvasGroup = jumpscareCanvas.GetComponent<CanvasGroup>();
+        CanvasGroup canvasGroup = jumpscareCanvas.GetComponent<CanvasGroup>();
         canvasGroup.alpha = 1;
         jumpscareVideo.Play();
 
@@ -255,6 +262,7 @@ public class HenryController : MonoBehaviour
     {
         agent.speed = 0;
         animator.SetTrigger("TransitionToAngry");
+        transitionAudioSource.Play();
         yield return new WaitForSeconds(0.5f);
         agent.speed = normalSpeed;
         animator.ResetTrigger("TransitionToAngry");
@@ -272,7 +280,7 @@ public class HenryController : MonoBehaviour
     IEnumerator WaitForJumpscare()
     {
         // Wait for the length of the jumpscare video
-        yield return new WaitForSeconds((float)jumpscareVideo.length-0.3f);
+        yield return new WaitForSeconds((float)jumpscareVideo.length);
 
         // Set the PlayerPrefs value for the survival status to 0 (not survived)
         PlayerPrefs.SetInt(survivalPlayerPrefKey, 0);
@@ -282,5 +290,8 @@ public class HenryController : MonoBehaviour
         SceneManager.LoadScene(deathSceneName);
     }
 
-    
+    private void setPlayerChased(bool temp)
+    {
+        player.GetComponent<PlayerMovement>().isChased = temp;
+    }
 }
