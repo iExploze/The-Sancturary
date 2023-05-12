@@ -26,8 +26,7 @@ public class HenryController : MonoBehaviour
     private Vector2 Destination;
 
     private float custodianRoomRadius = 9f;
-
-    [SerializeField] private AudioSource normalWalkingAudioSource;
+    
     [SerializeField] private AudioSource transitionAudioSource;
 
     private enum State
@@ -106,6 +105,7 @@ public class HenryController : MonoBehaviour
                     if (playerOutOfChaseRange())
                     {
                         StartCoroutine(TransitionToNormal());
+                        Destination = RandomLocation();
                         setPlayerChased(false);
                         currentState = State.Roam;
                         break;

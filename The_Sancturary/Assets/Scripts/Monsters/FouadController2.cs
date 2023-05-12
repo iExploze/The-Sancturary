@@ -90,7 +90,14 @@ public class FouadController2 : MonoBehaviour
             case State.Chase:
                 setPlayerChased(true);
                 Destination = playerLocation();
-                if (isPlayerInCustodian() || isPlayerHiding())
+                if(isPlayerHiding())
+                {
+                    Destination = RandomLocation();
+                    setPlayerChased(false);
+                    currentState = State.Roam;
+                    break;
+                }
+                else if (isPlayerInCustodian())
                 {
                     Destination = getPlayerCustodianLocation();
                     if (inCustodianRaidus())
@@ -105,6 +112,7 @@ public class FouadController2 : MonoBehaviour
                 {
                     if (playerOutOfChaseRange())
                     {
+                        Destination = RandomLocation();
                         setPlayerChased(false);
                         currentState = State.Roam;
                         break;

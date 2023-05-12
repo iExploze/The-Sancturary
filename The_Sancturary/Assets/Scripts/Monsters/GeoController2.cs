@@ -67,7 +67,7 @@ public class GeoController2 : MonoBehaviour
             currentState = State.Roam;
             break;
         case State.Roam:
-            StopCoroutine(SlowDownMonster());
+            StopAllCoroutines();
             isSlowed = false;
             if (playerInViewRange() && !isPlayerHiding() && !isPlayerInCustodian())
             {
@@ -91,7 +91,7 @@ public class GeoController2 : MonoBehaviour
             }
             if (isPlayerInCustodian())
             {
-                StopCoroutine(SlowDownMonster());
+                StopAllCoroutines();
                 isSlowed = false;
                 hasSeenPlayer = false;
                 Destination = getPlayerCustodianLocation();
@@ -109,12 +109,13 @@ public class GeoController2 : MonoBehaviour
                 {
                     if (isPlayerHiding())
                     {
-                        StopCoroutine(SlowDownMonster());
+                        StopAllCoroutines();
                         isSlowed = false;
                         hasSeenPlayer = false;
                     }
                     if (playerOutOfChaseRange())
                     {
+                        Destination = RandomLocation();
                         hasSeenPlayer = false;
                         setPlayerChased(false);
                         currentState = State.Roam;
@@ -264,7 +265,7 @@ public class GeoController2 : MonoBehaviour
         agent.speed = slowedSpeed;
 
         // Wait for a random duration between 10 and 20 seconds
-        float slowDuration = Random.Range(2, 5);
+        float slowDuration = Random.Range(2f, 2f);
         yield return new WaitForSeconds(slowDuration);
 
         // Restore the monster's speed
