@@ -88,6 +88,7 @@ public class FouadController2 : MonoBehaviour
 
                 break;
             case State.Chase:
+                setPlayerChased(true);
                 Destination = playerLocation();
                 if (isPlayerInCustodian() || isPlayerHiding())
                 {

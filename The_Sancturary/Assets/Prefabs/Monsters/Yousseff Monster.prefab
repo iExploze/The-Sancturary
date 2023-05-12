@@ -161,9 +161,9 @@ AudioSource:
   Priority: 89
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 25
+  MaxDistance: 15
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -171,46 +171,46 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.033333335
+      time: 0.04
       value: 1
-      inSlope: -30.011993
-      outSlope: -30.011993
+      inSlope: -25.00996
+      outSlope: -25.00996
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.06666667
+      time: 0.08
       value: 0.5
-      inSlope: -7.5029984
-      outSlope: -7.5029984
+      inSlope: -6.25249
+      outSlope: -6.25249
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.13333334
+      time: 0.16
       value: 0.25
-      inSlope: -1.8757496
-      outSlope: -1.8757496
+      inSlope: -1.5631225
+      outSlope: -1.5631225
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.26666668
+      time: 0.32
       value: 0.125
-      inSlope: -0.4689374
-      outSlope: -0.4689374
+      inSlope: -0.39078063
+      outSlope: -0.39078063
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.53333336
+      time: 0.64
       value: 0.0625
-      inSlope: -0.11723435
-      outSlope: -0.11723435
+      inSlope: -0.09769516
+      outSlope: -0.09769516
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -218,8 +218,8 @@ AudioSource:
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: -0.033346657
-      outSlope: -0.033346657
+      inSlope: -0.04001595
+      outSlope: -0.04001595
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -293,7 +293,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 25
+  MaxDistance: 15
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0
