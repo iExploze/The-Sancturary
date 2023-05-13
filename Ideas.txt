@@ -1,21 +1,21 @@
 Monsters:
 
-Ian - Toaster like omfg hello icon, plays music near you, ketchup puddles dont afk. 
+Ian - The player can create portals between areas with ketchup that have a cooldown between uses, but once a portal has been made Ian comes out of it and is now a monster on the map, whenever you make another ketchup portal to link to the first, Ian instanly knows your location (Idea done)
 
-Robert - Neko Girl, 
+Robert - Is in a random room on the map, alerts all ghosts to your location if u enter that room and then randomly goes to another room.               Robert room lightswitch does not work (Idea done)
 
-Arjun - Nerd emoji, Blinding Jawline, cant look at him
+Arjun - Nerd Emoji (Asset done)
 
-Geo - Demon sounds, Screen Shake, Kench tongue, Slow
+Geo - DONE
 
-Vlad - Zyzz music, Warwick but protien and pre workout
+Vlad - Carrying the protien powder item or the preworkout item causes Vlad to always know where you are and come for you, you can hear him close through the hardstyle music. Pre-workout gives the player a temporary speedboost, and Protien-Powder makes monster run away from the player for a short amount of time. (Idea Done)
 
-Henry - Invisible, Listen to motivational quotes / something.
+Henry - Extremely Slow, Always knows where you are, You can not hear him or see him until he is close to you (Idea Done)
 
-Ethan - Eeriee, Emo, Shadow, Surprise Monster
+Ethan - DONE
 
-Adam - McDonalds snacks that are buffs.
+Adam - Spawns randomly on the map after the power box is turned on and very slowly moves towards the powerbox room. Adam can not kill you, and walking into him disables him for some time. If he gets to the power box room he turns it off, and after he is enabled after being disbaled he spawns in a random room and goes for the power box (Idea done)
 
-Fouad - Aram, Dashes, cant move but dash.
+Fouad - DONE
 
-Amalgamation - Something
+Amalgamation - Big end game boss that chases you (End Game) (Has the face of all the previous monsters)
