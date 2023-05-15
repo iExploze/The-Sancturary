@@ -132,9 +132,11 @@ public class GeoController2 : MonoBehaviour
         case State.Attack:
             Destination = playerLocation();
             if (hasSeenPlayer)
+            {
                 kill();
-            else
-                hasSeenPlayer = false;
+                break;
+            }
+            hasSeenPlayer = false;
             setPlayerChased(false);
             currentState = State.Roam;
             break;
