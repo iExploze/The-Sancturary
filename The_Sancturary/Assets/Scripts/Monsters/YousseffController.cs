@@ -110,20 +110,20 @@ public class YousseffController : MonoBehaviour
     void Move()
     {
         if (cooldownCount >= dashCooldown)
-                {
-                    StartCoroutine(DashSequence());
-                    cooldownCount = 0;
-                }
-                else
-                {
-                    cooldownCount += Time.deltaTime;
-                    agent.SetDestination(player.transform.position);
+        {
+            StartCoroutine(DashSequence());
+            cooldownCount = 0;
+        }
+        else
+        {
+            cooldownCount += Time.deltaTime;
+            agent.SetDestination(player.transform.position);
 
-                    Vector2 velocity = agent.velocity;
-                    animator.SetFloat("Horizontal", velocity.x);
-                    animator.SetFloat("Vertical", velocity.y);
-                    animator.SetFloat("Speed", velocity.sqrMagnitude);
-                }
+            Vector2 velocity = agent.velocity;
+            animator.SetFloat("Horizontal", velocity.x);
+            animator.SetFloat("Vertical", velocity.y);
+            animator.SetFloat("Speed", velocity.sqrMagnitude);
+        }
     }    
 
 

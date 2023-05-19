@@ -76,6 +76,7 @@ public class EthanController : MonoBehaviour
 
     IEnumerator PlayJumpscare()
     {
+        yield return new WaitForSeconds(0.8f);
         CanvasGroup canvasGroup = jumpscareCanvas.GetComponent<CanvasGroup>();
         canvasGroup.alpha = 1;
         jumpscareVideo.Play();
