@@ -283,7 +283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30620795d45f7a542a4bacdb4a44c1dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: Map 1 Test
+  sceneName: Main Map
 --- !u!1 &314084791
 GameObject:
   m_ObjectHideFlags: 0
@@ -596,19 +596,20 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'How to player WASD to move, left click to interact,
+  m_text: 'How to play: WASD to move, left click to interact,
 
 
-    If you hear
-    heart beat sounds, it means that a monster is nearby, but it does not mean it
-    knows where you are
+    If you hear heart
+    beat sounds, it means that a monster is nearby, but it does not mean it knows
+    where you are
 
     If you hear music, run or hide.
 
 
     To leave The Sancturary,
-    you will need to find the power, located deep in the sancturary, turn it on by
-    touching it, and the exit will work at the entrance. GLHF:)
+    you will need to find atleast 2 power source, located deep in the sancturary,
+    turn it on by touching it, getting 1 power source will turn on the light. The
+    exit will spawn after 2 power have been turned on. GLHF:)
 
 
     Tip: you move
