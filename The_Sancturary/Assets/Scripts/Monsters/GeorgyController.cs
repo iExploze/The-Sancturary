@@ -131,18 +131,18 @@ public class GeorgyController : MonoBehaviour
     void Jumpscare()
     {
         // Stop the monster movement
-                agent.isStopped = true;
+        agent.isStopped = true;
 
-                // Trigger the jumpscare video
-                CanvasGroup canvasGroup = jumpscareCanvas.GetComponent<CanvasGroup>();
-                canvasGroup.alpha = 1;
-                jumpscareVideo.Play();
+        // Trigger the jumpscare video
+        CanvasGroup canvasGroup = jumpscareCanvas.GetComponent<CanvasGroup>();
+        canvasGroup.alpha = 1;
+        jumpscareVideo.Play();
 
-                // Set the "Speed" parameter to zero to stop the walking animation
-                animator.SetFloat("Speed", 0f);
-                // Wait for the jump
-                // Wait for the jumpscare video to finish, then transition to the death scene
-                StartCoroutine(WaitForJumpscare());
+        // Set the "Speed" parameter to zero to stop the walking animation
+        animator.SetFloat("Speed", 0f);
+        // Wait for the jump
+        // Wait for the jumpscare video to finish, then transition to the death scene
+        StartCoroutine(WaitForJumpscare());
     }
 
     void Wanderer()

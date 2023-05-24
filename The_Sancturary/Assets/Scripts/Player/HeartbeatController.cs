@@ -2,13 +2,19 @@ using UnityEngine;
 
 public class HeartbeatController : MonoBehaviour
 {
+    private GameObject player;
     public string monsterTag = "Monster";
+    public string monsterTag2 = "MonsterNoHeartBeat";
     public float maxDistance = 10f;
     public AudioSource heartbeatAudioSource;
     public AudioSource scaryMusicAudioSource;
     public AnimationCurve volumeCurve;
     public AnimationCurve pitchCurve;
-    public float scaryMusicTriggerVolume = 0.5f;
+
+    private void Awake()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
 
     private void Update()
     {
@@ -28,8 +34,7 @@ public class HeartbeatController : MonoBehaviour
         heartbeatAudioSource.volume = volumeCurve.Evaluate(t);
         heartbeatAudioSource.pitch = pitchCurve.Evaluate(t);
 
-        // Play the scary music only when the heartbeat is loud
-        if (heartbeatAudioSource.volume >= scaryMusicTriggerVolume)
+        if (isPlayerChased())
         {
             if (!scaryMusicAudioSource.isPlaying)
             {
@@ -43,5 +48,10 @@ public class HeartbeatController : MonoBehaviour
                 scaryMusicAudioSource.Stop();
             }
         }
+    }
+
+    private bool isPlayerChased()
+    {
+        return player.GetComponent<PlayerMovement>().isChased;
     }
 }

@@ -11,12 +11,17 @@ public class PlayerMovement : MonoBehaviour
     public AudioSource walkingSound;
     public bool isHiding = false;
     public bool isInCustodianRoom = false;
+    public Vector2 custodianRoomLoc;
+    public bool isChased;
     Vector2 movement;
     public Light2D lightToControl;
     public SpriteRenderer playerSprite;
+
+    public bool isMoving;
     private void Start()
     {
-        
+        isMoving = false;
+        isChased = false;
     }
 
     void Update()
@@ -37,11 +42,13 @@ public class PlayerMovement : MonoBehaviour
         {
             if (!walkingSound.isPlaying)
             {
+                isMoving = true;
                 walkingSound.Play();
             }
         }
         else
         {
+            isMoving = false;
             walkingSound.Stop();
         }
 
