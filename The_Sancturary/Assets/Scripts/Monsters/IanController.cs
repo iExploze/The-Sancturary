@@ -188,8 +188,11 @@ private void Update()
             {
                 if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
                 {
-                    patrolIndex = (patrolIndex + 1) % patrolPoints.Count; // Cycle through patrol points
-                    Destination = patrolPoints[patrolIndex].position;
+                    if (patrolPoints.Count > 0)
+                    {
+                        patrolIndex = (patrolIndex + 1) % patrolPoints.Count; // Cycle through patrol points
+                        Destination = patrolPoints[patrolIndex].position;
+                    }
                     return true;
                 }
             }

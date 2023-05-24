@@ -123,8 +123,8 @@ MonoBehaviour:
   dashDuration: 0.5
   dechargeTime: 1
   survivalPlayerPrefKey: Survived
-  chaseRadius: 40
-  viewRadius: 4
+  chaseRadius: 20
+  viewRadius: 20
   WalkSound: {fileID: 9142830024683946391}
   ChargeSound: {fileID: 9142830023174586549}
   DashUpSound: {fileID: 9142830023174586548}
