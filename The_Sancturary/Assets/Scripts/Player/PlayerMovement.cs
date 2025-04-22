@@ -2,73 +2,62 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
-
-public class PlayerMovement : MonoBehaviour
+using Photon.Pun;
+public class PlayerMovement : MonoBehaviourPun
 {
-    public float moveSpeed = 5f;
-    public Rigidbody2D Rb;
-    public Animator animator;
-    public AudioSource walkingSound;
-    public bool isHiding = false;
-    public bool isInCustodianRoom = false;
-    public Vector2 custodianRoomLoc;
+    public bool isInCustodianRoom;
+    public bool isHiding;
     public bool isChased;
-    Vector2 movement;
-    public Light2D lightToControl;
-    public SpriteRenderer playerSprite;
+    public Vector3 custodianRoomLoc;
 
-    public bool isMoving;
+
+    [Header("Movement")]
+    private Vector2 movement;
+    public float speed;
+
+    [Header("Visuals")]
+    public Animator animator;
+
+    [Header("Audio")]
+    public AudioSource walkingSound;
+
+    [Header("Gameplay States")]
+    public bool isMoving = false;
+
     private void Start()
     {
-        isMoving = false;
-        isChased = false;
+
     }
 
     void Update()
     {
+        if (!photonView.IsMine) return;
+
+        // Input
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
-        if(movement.x != 0 && movement.y != 0)
-        {
+
+        // Normalize diagonal
+        if (movement.x != 0 && movement.y != 0)
             movement.Normalize();
-        }
 
+        transform.Translate(movement * speed * Time.deltaTime);
 
+        // Animation
         animator.SetFloat("Horizontal", movement.x);
         animator.SetFloat("Vertical", movement.y);
         animator.SetFloat("Speed", movement.sqrMagnitude);
 
-        if (movement.x != 0 || movement.y != 0)
+        // Walking sound
+        bool currentlyMoving = movement.sqrMagnitude > 0;
+
+        if (currentlyMoving && !walkingSound.isPlaying)
         {
-            if (!walkingSound.isPlaying)
-            {
-                isMoving = true;
-                walkingSound.Play();
-            }
+            walkingSound.Play();
         }
-        else
+        else if (!currentlyMoving && walkingSound.isPlaying)
         {
-            isMoving = false;
             walkingSound.Stop();
-        }
-
-        if (isHiding)
-        {
-            lightToControl.pointLightInnerRadius = 0.1f;
-            lightToControl.pointLightOuterRadius = 1f;
-        }
-        else
-        {
-            lightToControl.pointLightInnerRadius = 1f;
-            lightToControl.pointLightOuterRadius = 3.25f;
-        }
-    }
-
-    void FixedUpdate()
-    {
-        if (!isHiding) // Only allow movement if not hiding
-        {
-            Rb.MovePosition(Rb.position + movement * moveSpeed * Time.fixedDeltaTime);
         }
     }
 }

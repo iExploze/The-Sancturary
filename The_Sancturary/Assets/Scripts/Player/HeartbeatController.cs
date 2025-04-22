@@ -1,7 +1,11 @@
 using UnityEngine;
+using Photon.Pun;
+
 
 public class HeartbeatController : MonoBehaviour
 {
+    private PhotonView photonView;
+
     private GameObject player;
     public string monsterTag = "Monster";
     public string monsterTag2 = "MonsterNoHeartBeat";
@@ -14,7 +18,21 @@ public class HeartbeatController : MonoBehaviour
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+
     }
+
+    void Start()
+    {
+        photonView = GetComponent<PhotonView>();
+
+        if (!photonView.IsMine)
+        {
+            // Disable stuff here
+        }
+
+        // Your existing start logic...
+    }
+
 
     private void Update()
     {

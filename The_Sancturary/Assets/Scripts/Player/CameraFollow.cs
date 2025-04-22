@@ -1,4 +1,6 @@
 using UnityEngine;
+using Photon.Pun;
+
 
 public class CameraFollow : MonoBehaviour
 {
@@ -7,10 +9,29 @@ public class CameraFollow : MonoBehaviour
     private Camera cam;
 
     public float yoffset = 0.6f;
+    private PhotonView view;
 
     void Start()
     {
+        Debug.Log("🎥 CameraFollow Init | PhotonView found: " + (view != null) + " | IsMine: " + view?.IsMine);
+
         cam = GetComponent<Camera>();
+
+        view = GetComponentInParent<PhotonView>(); // ← THIS is more reliable than TryGetComponent on root
+
+        if (view != null && !view.IsMine)
+        {
+            cam.enabled = false;
+
+            if (TryGetComponent<AudioListener>(out var listener))
+                listener.enabled = false;
+
+            enabled = false;
+            return;
+        }
+
+        if (target == null)
+            target = view.transform; // ← use PhotonView object as default
     }
 
     void LateUpdate()

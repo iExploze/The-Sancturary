@@ -44,7 +44,7 @@ sysinfo.txt
 
 # ========================================
 # JetBrains Rider plugin (not using)
-/Assets/Plugins/Editor/JetBrains*
+/Assets/Plugins/Editor/JetBrains* 
 
 # ========================================
 # Asset Store Tools (uncomment if used)
