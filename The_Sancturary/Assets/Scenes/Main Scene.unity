@@ -4184,16 +4184,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91fafe27aaa24944092b70c968b5e776, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  Rb: {fileID: 700994333}
+  isInCustodianRoom: 0
+  isHiding: 0
+  isChased: 0
+  custodianRoomLoc: {x: 0, y: 0, z: 0}
+  speed: 0
   animator: {fileID: 700994336}
   walkingSound: {fileID: 179533775}
-  isHiding: 0
-  isInCustodianRoom: 0
-  custodianRoomLoc: {x: 0, y: 0}
-  isChased: 0
-  lightToControl: {fileID: 714129025}
-  playerSprite: {fileID: 0}
   isMoving: 0
 --- !u!50 &700994333
 Rigidbody2D:
