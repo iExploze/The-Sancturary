@@ -5,7 +5,7 @@ using UnityEngine.Video;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class MenuManager : MonoBehaviourPunCallbacks
+public class MenuManager : MonoBehaviour
 {
     public Canvas jumpscareCanvas;
     public Canvas currentCanvas;
