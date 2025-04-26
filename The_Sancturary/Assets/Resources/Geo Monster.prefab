@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 2052268353498942270}
   - component: {fileID: 2052268353498942264}
   - component: {fileID: 2052268353498942267}
+  - component: {fileID: 887332820416064167}
+  - component: {fileID: 4283201061629154641}
   m_Layer: 0
   m_Name: Geo Monster
   m_TagString: Monster
@@ -117,20 +119,59 @@ MonoBehaviour:
   m_GameObject: {fileID: 2052268353498942214}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d34f42c2fd5c644997b51fcfb5a2047, type: 3}
+  m_Script: {fileID: 11500000, guid: 715a8082cb1b1c04195e4b4c7736efff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  viewRadius: 4
+  chaseRadius: 10
+  attackRange: 0.8
+  playerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  roamRadius: 8
   jumpscareCanvas: {fileID: 0}
   jumpscareVideo: {fileID: 0}
-  monsterSprite: {fileID: 2052268354137066014}
-  attackDistanceThreshold: 0.8
-  wanderAreaRadius: 10
   deathSceneName: End Scene
-  slowedSpeed: 0.5
-  normalSpeed: 2
-  survivalPlayerPrefKey: Survived
-  chaseRadius: 40
-  viewRadius: 4
+--- !u!114 &887332820416064167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2052268353498942214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 4283201061629154641}
+  - {fileID: 426424643316630895}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &4283201061629154641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2052268353498942214}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &2052268354137066014
 GameObject:
   m_ObjectHideFlags: 0
@@ -143,6 +184,7 @@ GameObject:
   - component: {fileID: 2052268354137066012}
   - component: {fileID: 2052268354137066013}
   - component: {fileID: 2052268354137066009}
+  - component: {fileID: 426424643316630895}
   m_Layer: 0
   m_Name: MonsterSprite
   m_TagString: Untagged
@@ -361,3 +403,30 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &426424643316630895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2052268354137066014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 1
+    SynchronizeType: 2
+    Name: Vertical
+  - Type: 1
+    SynchronizeType: 2
+    Name: Horizontal
+  - Type: 1
+    SynchronizeType: 2
+    Name: Speed
+  m_SynchronizeLayers:
+  - SynchronizeType: 2
+    LayerIndex: 0

@@ -3778,7 +3778,7 @@ GameObject:
   - component: {fileID: 798246406}
   - component: {fileID: 798246407}
   m_Layer: 0
-  m_Name: Spawn
+  m_Name: PlayerSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3792,12 +3792,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 798246405}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -85.01, y: -2.4894803, z: -9.91984}
+  m_LocalPosition: {x: -85.01, y: -2.4894803, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &798246407
 MonoBehaviour:
@@ -79518,7 +79518,7 @@ Transform:
   - {fileID: 1262200020}
   - {fileID: 1147254412}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1391879354
 PrefabInstance:
@@ -80064,6 +80064,91 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 8.96, y: 9.55}
   m_EdgeRadius: 0
+--- !u!1001 &1596725912
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 887332820416064167, guid: 9601c0406a76d344c919b0359f493085, type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052268353498942211, guid: 9601c0406a76d344c919b0359f493085, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052268353498942211, guid: 9601c0406a76d344c919b0359f493085, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -50.761936
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052268353498942211, guid: 9601c0406a76d344c919b0359f493085, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052268353498942211, guid: 9601c0406a76d344c919b0359f493085, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052268353498942211, guid: 9601c0406a76d344c919b0359f493085, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052268353498942211, guid: 9601c0406a76d344c919b0359f493085, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052268353498942211, guid: 9601c0406a76d344c919b0359f493085, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052268353498942211, guid: 9601c0406a76d344c919b0359f493085, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052268353498942211, guid: 9601c0406a76d344c919b0359f493085, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052268353498942211, guid: 9601c0406a76d344c919b0359f493085, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052268353498942211, guid: 9601c0406a76d344c919b0359f493085, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052268353498942214, guid: 9601c0406a76d344c919b0359f493085, type: 3}
+      propertyPath: m_Name
+      value: Geo Monster
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052268353498942267, guid: 9601c0406a76d344c919b0359f493085, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052268353498942267, guid: 9601c0406a76d344c919b0359f493085, type: 3}
+      propertyPath: deathSceneName
+      value: Lobby Scene
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052268353498942267, guid: 9601c0406a76d344c919b0359f493085, type: 3}
+      propertyPath: jumpscareVideo
+      value: 
+      objectReference: {fileID: 801535357249416240}
+    - target: {fileID: 2052268353498942267, guid: 9601c0406a76d344c919b0359f493085, type: 3}
+      propertyPath: jumpscareCanvas
+      value: 
+      objectReference: {fileID: 801535357249416241}
+    - target: {fileID: 2052268353498942270, guid: 9601c0406a76d344c919b0359f493085, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4283201061629154641, guid: 9601c0406a76d344c919b0359f493085, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9601c0406a76d344c919b0359f493085, type: 3}
 --- !u!1 &1603630955
 GameObject:
   m_ObjectHideFlags: 0
@@ -80141,7 +80226,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1608499743 stripped
 Transform:
@@ -133640,6 +133725,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6473db63e7d6021438770c48ca1aaf0d, type: 3}
+--- !u!328 &801535357249416240 stripped
+VideoPlayer:
+  m_CorrespondingSourceObject: {fileID: 2010175284866450694, guid: 6473db63e7d6021438770c48ca1aaf0d, type: 3}
+  m_PrefabInstance: {fileID: 801535357249416239}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &801535357249416241 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 2010175283565369439, guid: 6473db63e7d6021438770c48ca1aaf0d, type: 3}
+  m_PrefabInstance: {fileID: 801535357249416239}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1033613819092528414
 GameObject:
   m_ObjectHideFlags: 0
@@ -133708,7 +133803,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1223347338109019958
 GameObject:
