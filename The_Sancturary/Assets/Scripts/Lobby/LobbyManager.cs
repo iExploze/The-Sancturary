@@ -15,6 +15,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        PhotonNetwork.AutomaticallySyncScene = true;
         UpdatePlayerList();
     }
 
@@ -56,28 +57,36 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public void SetEasyDifficulty()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient) 
+        {
             selectedDifficulty = Difficulty.Easy;
-        StartCoroutine(LoadGameScene());
+            StartCoroutine(LoadGameScene());
+        }
+            
     }
 
     public void SetMediumDifficulty()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient) { 
             selectedDifficulty = Difficulty.Medium;
-        StartCoroutine(LoadGameScene());
+            StartCoroutine(LoadGameScene());
+        }
+        
     }
 
     public void SetHardDifficulty()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient) 
+        {
             selectedDifficulty = Difficulty.Hard;
-        StartCoroutine(LoadGameScene());
+            StartCoroutine(LoadGameScene());
+        }
+            
     }
 
     private IEnumerator LoadGameScene()
     {
-        PhotonNetwork.AutomaticallySyncScene = true;
+        Debug.Log("loading into the game scene");
         yield return new WaitForSeconds(2f); // Short fake load
         PhotonNetwork.LoadLevel("Map 1 Test"); // Sync load
     }

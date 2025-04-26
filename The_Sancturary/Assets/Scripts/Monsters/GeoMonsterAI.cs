@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
 public class GeoMonsterAI : MonsterBaseAI
 {
@@ -30,6 +31,6 @@ public class GeoMonsterAI : MonsterBaseAI
         PlayerPrefs.SetInt("Survived", 0);
         PlayerPrefs.Save();
 
-        SceneManager.LoadScene(deathSceneName);
+        PhotonNetwork.LoadLevel(deathSceneName);
     }
 }
