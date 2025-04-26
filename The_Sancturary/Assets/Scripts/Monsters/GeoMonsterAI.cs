@@ -7,7 +7,7 @@ public class GeoMonsterAI : MonsterBaseAI
 {
     public Canvas jumpscareCanvas;
     public VideoPlayer jumpscareVideo;
-    public string deathSceneName = "End Scene";
+    public string deathSceneName = "Lobby Scene";
 
     protected override void PerformAttack()
     {
