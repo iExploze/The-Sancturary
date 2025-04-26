@@ -3776,6 +3776,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 798246406}
+  - component: {fileID: 798246407}
   m_Layer: 0
   m_Name: Spawn
   m_TagString: Untagged
@@ -3798,6 +3799,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &798246407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798246405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18e85a4cd6852a14f899969b88a15bb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 8572213492799708437, guid: 994735f2eb9ade4488667490ceaa000a, type: 3}
 --- !u!1 &822168080
 GameObject:
   m_ObjectHideFlags: 0
@@ -80814,12 +80828,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d7596b296b63e5458b1c513d7a10453, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doorAnimator: {fileID: 1815322037}
-  toggleDoorParameter: ToggleDoor
-  player: {fileID: 0}
-  playerIsNearby: 0
-  audioSource: {fileID: 0}
-  doorCollider: {fileID: 0}
 --- !u!70 &1815322036
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
