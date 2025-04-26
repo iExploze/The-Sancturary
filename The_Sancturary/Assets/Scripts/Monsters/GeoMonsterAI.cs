@@ -31,6 +31,6 @@ public class GeoMonsterAI : MonsterBaseAI
         PlayerPrefs.SetInt("Survived", 0);
         PlayerPrefs.Save();
 
-        PhotonNetwork.LoadLevel(deathSceneName);
+        PhotonNetwork.LeaveRoom();
     }
 }
