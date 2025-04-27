@@ -10,6 +10,8 @@ public class PlayerMovement : MonoBehaviourPun
     public bool isChased;
     public Vector3 custodianRoomLoc;
 
+    public bool ableMove = true;
+
 
     [Header("Movement")]
     private Vector2 movement;
@@ -41,12 +43,16 @@ public class PlayerMovement : MonoBehaviourPun
         if (movement.x != 0 && movement.y != 0)
             movement.Normalize();
 
-        transform.Translate(movement * speed * Time.deltaTime);
+        if (ableMove) 
+        {
+            transform.Translate(movement * speed * Time.deltaTime);
 
-        // Animation
-        animator.SetFloat("Horizontal", movement.x);
-        animator.SetFloat("Vertical", movement.y);
-        animator.SetFloat("Speed", movement.sqrMagnitude);
+            // Animation
+            animator.SetFloat("Horizontal", movement.x);
+            animator.SetFloat("Vertical", movement.y);
+            animator.SetFloat("Speed", movement.sqrMagnitude);
+        }
+
 
         // Walking sound
         bool currentlyMoving = movement.sqrMagnitude > 0;
