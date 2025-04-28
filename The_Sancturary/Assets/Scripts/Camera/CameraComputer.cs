@@ -37,7 +37,7 @@ public class CameraComputer : MonoBehaviourPun
         }
     }
 
-    private void ToggleCameraUI()
+    public void ToggleCameraUI()
     {
         Debug.Log("open cam");
 
@@ -48,18 +48,9 @@ public class CameraComputer : MonoBehaviourPun
 
         if (playerMovement != null)
         {
-            playerMovement.ableMove = false; // Disable movement while in camera
-        }
-
-        if (isActive)
-        {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-        }
-        else
-        {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
+            if(playerMovement.ableMove)
+                playerMovement.ableMove = false; // Disable movement while in camera
+            else playerMovement.ableMove = true;
         }
     }
 }

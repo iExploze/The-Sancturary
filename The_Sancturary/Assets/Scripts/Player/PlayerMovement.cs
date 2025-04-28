@@ -57,7 +57,7 @@ public class PlayerMovement : MonoBehaviourPun
         // Walking sound
         bool currentlyMoving = movement.sqrMagnitude > 0;
 
-        if (currentlyMoving && !walkingSound.isPlaying)
+        if (currentlyMoving && !walkingSound.isPlaying && ableMove)
         {
             walkingSound.Play();
         }
