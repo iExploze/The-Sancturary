@@ -26,10 +26,26 @@ public class CameraComputer : MonoBehaviourPun
             cameraUI.SetActive(false);
     }
 
+    private void Update()
+    {
+        if (player == null)
+        {
+            foreach (var p in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                if (p.GetComponent<PhotonView>() != null && p.GetComponent<PhotonView>().IsMine)
+                {
+                    player = p.transform;
+                    playerMovement = player.GetComponent<PlayerMovement>();
+                    break;
+                }
+            }
+        }
+    }
+
     private void OnMouseDown()
     {
         if (player == null) return;
-
+        Debug.Log("click");
         // Only let local player interact
         if (Vector2.Distance(transform.position, player.position) <= interactionDistance)
         {

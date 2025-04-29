@@ -10,7 +10,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("start the join lobby");
+        //Debug.Log("start the join lobby");
         PhotonNetwork.ConnectUsingSettings();
     }
 
@@ -18,31 +18,31 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsConnected)
         {
-            Debug.Log("Trying to join or create a room...");
+            //Debug.Log("Trying to join or create a room...");
             PhotonNetwork.JoinRandomRoom();
         }
         else
         {
-            Debug.LogWarning("Not connected yet. Please wait...");
+            //Debug.LogWarning("Not connected yet. Please wait...");
         }
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
-        Debug.Log("No room found, creating a new one...");
+        //Debug.Log("No room found, creating a new one...");
         PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 4 });
     }
 
     public override void OnJoinedRoom()
     {
 
-        Debug.Log("Joined a room!");
+        //Debug.Log("Joined a room!");
         SceneManager.LoadScene("Lobby Scene");
     }
 
     public override void OnCreatedRoom()
     {
-        Debug.Log("Created a new room!");
+        //Debug.Log("Created a new room!");
     }
 
     // Update is called once per frame

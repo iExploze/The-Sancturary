@@ -38,7 +38,7 @@ public abstract class MonsterBaseAI : MonoBehaviourPun
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         Transform closest = null;
         float closestDistance = Mathf.Infinity;
-        Debug.Log("playercount: " + players);
+        //Debug.Log("playercount: " + players);
         foreach (GameObject p in players)
         {
             float dist = Vector3.Distance(transform.position, p.transform.position);
@@ -82,7 +82,7 @@ public abstract class MonsterBaseAI : MonoBehaviourPun
                 break;
         }
 
-        Debug.Log("Current state: " + currentState);
+        //Debug.Log("Current state: " + currentState);
         UpdateAnimation();
     }
 

@@ -825,6 +825,7 @@ MonoBehaviour:
   isHiding: 0
   isChased: 0
   custodianRoomLoc: {x: 0, y: 0, z: 0}
+  ableMove: 1
   speed: 2
   animator: {fileID: 7863571573822825087}
   walkingSound: {fileID: 9068903034292224661}
