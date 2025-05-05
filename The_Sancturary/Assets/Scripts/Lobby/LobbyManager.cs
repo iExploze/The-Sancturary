@@ -86,7 +86,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     private IEnumerator LoadGameScene()
     {
-        Debug.Log("loading into the game scene");
+        //Debug.Log("loading into the game scene");
         yield return new WaitForSeconds(2f); // Short fake load
         PhotonNetwork.LoadLevel("Map 1 Test"); // Sync load
     }
