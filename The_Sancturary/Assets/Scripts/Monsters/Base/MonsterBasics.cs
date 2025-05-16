@@ -21,7 +21,7 @@ public abstract class MonsterBase : MonoBehaviourPun
     protected Transform targetPlayer; // Who we're chasing (can be extended to list for co-op)
     protected GameObject[] allPlayers;
 
-    protected int MonsterID;
+    protected private int MonsterID;
 
     public virtual int returnID() 
     {
@@ -55,6 +55,7 @@ public abstract class MonsterBase : MonoBehaviourPun
 
     protected virtual void Update()
     {
+        UpdateAnimation();
         switch (currentState)
         {
             case MonsterState.Chill:
@@ -69,6 +70,18 @@ public abstract class MonsterBase : MonoBehaviourPun
             case MonsterState.Return:
                 ReturnUpdate();
                 break;
+        }
+    }
+
+    // Animation updating method
+    protected virtual void UpdateAnimation()
+    {
+        Vector3 velocity = agent.velocity;
+        if (animator != null)
+        {
+            animator.SetFloat("Horizontal", velocity.x);
+            animator.SetFloat("Vertical", velocity.y);
+            animator.SetFloat("Speed", velocity.sqrMagnitude);
         }
     }
 
@@ -88,7 +101,7 @@ public abstract class MonsterBase : MonoBehaviourPun
                 patrolIndex = 0;
             }
         }
-        Debug.Log(Vector2.Distance(transform.position, patrolPoints[patrolIndex].position));
+        // Debug.Log(Vector2.Distance(transform.position, patrolPoints[patrolIndex].position));
         // Set the destination to the current patrol point
         agent.SetDestination(patrolPoints[patrolIndex].position);
 
@@ -113,7 +126,7 @@ public abstract class MonsterBase : MonoBehaviourPun
 
         agent.SetDestination(targetPlayer.position);
 
-        float distance = Vector3.Distance(transform.position, targetPlayer.position);
+        float distance = Vector2.Distance(transform.position, targetPlayer.position);
         if (distance <= killRange)
         {
             SwitchState(MonsterState.Kill);
@@ -142,7 +155,7 @@ public abstract class MonsterBase : MonoBehaviourPun
 
     protected virtual bool PlayerInRange(Transform player, float range)
     {
-        return Vector3.Distance(transform.position, player.position) <= range;
+        return Vector2.Distance(transform.position, player.position) <= range;
     }
 
     protected virtual Transform FindNearestPlayer()
@@ -152,15 +165,22 @@ public abstract class MonsterBase : MonoBehaviourPun
         //Debug.Log("playercount: " + players);
         foreach (GameObject p in allPlayers)
         {
-            float dist = Vector3.Distance(transform.position, p.transform.position);
-            if (dist < closestDistance)
+            // Get the PlayerMovement component
+            PlayerMovement playerMovement = p.GetComponent<PlayerMovement>();
+            // Check if the player exists and is not a ghost
+            if (playerMovement != null && !playerMovement.isGhost())
             {
-                closest = p.transform;
-                closestDistance = dist;
+                float dist = Vector2.Distance(transform.position, p.transform.position);
+                if (dist < closestDistance)
+                {
+                    closest = p.transform;
+                    closestDistance = dist;
+                }
             }
+
         }
 
-        return closest;
+            return closest;
     }
 
     protected virtual void SwitchState(MonsterState newState)

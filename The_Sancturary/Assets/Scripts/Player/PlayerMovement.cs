@@ -5,10 +5,7 @@ using UnityEngine.Rendering.Universal;
 using Photon.Pun;
 public class PlayerMovement : MonoBehaviourPun
 {
-    public bool isInCustodianRoom;
-    public bool isHiding;
-    public bool isChased;
-    public Vector3 custodianRoomLoc;
+    private bool ghostMode = false;
 
     public bool ableMove = true;
 
@@ -33,7 +30,7 @@ public class PlayerMovement : MonoBehaviourPun
 
     void Update()
     {
-        if (!photonView.IsMine) return;
+        if (PhotonNetwork.IsConnected && !photonView.IsMine) return;
 
         // Input
         movement.x = Input.GetAxisRaw("Horizontal");
@@ -65,5 +62,21 @@ public class PlayerMovement : MonoBehaviourPun
         {
             walkingSound.Stop();
         }
+    }
+
+    public bool isGhost() 
+    {
+        return ghostMode;
+    }
+
+    public void setGhost(bool a) 
+    {
+        ghostMode = a;
+    }
+
+    // Get the player's unique Photon ID
+    public int GetPlayerID()
+    {
+        return photonView.OwnerActorNr;
     }
 }

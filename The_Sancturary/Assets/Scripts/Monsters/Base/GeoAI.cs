@@ -3,15 +3,32 @@ using Photon.Pun;
 
 public class GeoAI : MonsterBase
 {
-    private int geoMonsterID = 1;
 
     protected override void Start()
     {
-        MonsterID = geoMonsterID;
+        MonsterID = 1;
         base.Start();
         currentState = MonsterState.Chill;
         // no extra setup
     }
 
-    // we don’t need Kill/Return logic yet, so leave everything else on the base
+    protected override void Update() 
+    {
+        base.Update();
+
+
+    }
+
+    // the override for killing the player
+    protected override void PerformKill(GameObject obj)
+    {
+        base.PerformKill(obj);
+
+        if (obj.tag == "Player") 
+        {
+            PlayerKiller playerKiller = obj.GetComponent<PlayerKiller>();
+
+            playerKiller.killPlayer(returnID());   
+        }
+    }
 }

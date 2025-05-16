@@ -44,7 +44,7 @@ public class CameraComputer : MonoBehaviourPun
 
     private void OnMouseDown()
     {
-        if (player == null) return;
+        if (player == null || playerMovement.isGhost()) return;
         Debug.Log("click");
         // Only let local player interact
         if (Vector2.Distance(transform.position, player.position) <= interactionDistance)
