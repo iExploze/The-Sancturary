@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 using Photon.Pun;
 using Photon.Realtime;
@@ -8,16 +8,14 @@ public abstract class MonsterBase : MonoBehaviourPun
     public enum MonsterState { Chill, Hunt, Kill, Return }
     [SerializeField] protected MonsterState currentState = MonsterState.Chill;
 
-    [Header("Monster Parameters")]
+    [Header("Monster base settings")]
     public float detectionRange = 10f;
     public float killRange = 1.5f;
-    public float waitAtPoint = 2f;
     public Transform[] patrolPoints;
 
     protected int patrolIndex = 0;
-    protected float waitTimer = 0f;
     protected NavMeshAgent agent;
-    protected Vector3 startPosition;
+    protected Animator animator;
 
     // Player targeting (multiplayer)
     protected Transform targetPlayer; // Who we're chasing (can be extended to list for co-op)
@@ -33,21 +31,30 @@ public abstract class MonsterBase : MonoBehaviourPun
     protected virtual void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        startPosition = transform.position;
+        animator = GetComponentInChildren<Animator>();
+
+        agent.updateUpAxis = false;     // ← keeps Y as vertical (no X-axis flipping)
+        agent.updateRotation = false;   // ← stops the agent from rotating your object entirely
     }
 
     protected virtual void Start()
     {
         // Multiplayer: Find all players on the scene (customize for Photon)
         allPlayers = GameObject.FindGameObjectsWithTag("Player");
+
+        // ============ PHOTON MULTIPLAYER HOOK ============
+        // also good for rapid testing
+        if (PhotonNetwork.IsConnected)
+        {
+            if (!PhotonNetwork.IsMasterClient) return;
+            // Only master runs AI
+        }
+        SwitchState(MonsterState.Chill);
         // Optionally, assign targetPlayer now, or later when one is detected
     }
 
     protected virtual void Update()
     {
-        // ============ PHOTON MULTIPLAYER HOOK ============
-        if (!PhotonNetwork.IsMasterClient) return; // Only master runs AI
-
         switch (currentState)
         {
             case MonsterState.Chill:
@@ -69,27 +76,21 @@ public abstract class MonsterBase : MonoBehaviourPun
 
     protected virtual void ChillUpdate()
     {
-        // Patrol logic (or idle at startPosition)
-        if (patrolPoints != null && patrolPoints.Length > 0)
+        // Check if the monster has reached the current patrol point
+        if (Vector2.Distance(transform.position, patrolPoints[patrolIndex].position) < 1f)
         {
-            if (Vector3.Distance(transform.position, patrolPoints[patrolIndex].position) < 0.5f)
+            // Move to the next patrol point
+            patrolIndex++;
+
+            // If reached the last point, go back to the first point
+            if (patrolIndex >= patrolPoints.Length)
             {
-                waitTimer += Time.deltaTime;
-                if (waitTimer >= waitAtPoint)
-                {
-                    patrolIndex = (patrolIndex + 1) % patrolPoints.Length;
-                    waitTimer = 0f;
-                }
-            }
-            else
-            {
-                agent.SetDestination(patrolPoints[patrolIndex].position);
+                patrolIndex = 0;
             }
         }
-        else
-        {
-            agent.SetDestination(startPosition);
-        }
+        Debug.Log(Vector2.Distance(transform.position, patrolPoints[patrolIndex].position));
+        // Set the destination to the current patrol point
+        agent.SetDestination(patrolPoints[patrolIndex].position);
 
         // Check for players in range
         var p = FindNearestPlayer();
@@ -132,8 +133,8 @@ public abstract class MonsterBase : MonoBehaviourPun
 
     protected virtual void ReturnUpdate()
     {
-        agent.SetDestination(startPosition);
-        if (Vector3.Distance(transform.position, startPosition) < 1f)
+        agent.SetDestination(patrolPoints[0].position);
+        if (Vector3.Distance(transform.position, patrolPoints[0].position) < 1f)
             SwitchState(MonsterState.Chill);
     }
 
@@ -146,19 +147,20 @@ public abstract class MonsterBase : MonoBehaviourPun
 
     protected virtual Transform FindNearestPlayer()
     {
-        Transform nearest = null;
-        float minDist = float.MaxValue;
-        foreach (var go in allPlayers)
+        Transform closest = null;
+        float closestDistance = Mathf.Infinity;
+        //Debug.Log("playercount: " + players);
+        foreach (GameObject p in allPlayers)
         {
-            if (go == null) continue;
-            float dist = Vector3.Distance(transform.position, go.transform.position);
-            if (dist < minDist)
+            float dist = Vector3.Distance(transform.position, p.transform.position);
+            if (dist < closestDistance)
             {
-                minDist = dist;
-                nearest = go.transform;
+                closest = p.transform;
+                closestDistance = dist;
             }
         }
-        return nearest;
+
+        return closest;
     }
 
     protected virtual void SwitchState(MonsterState newState)
@@ -172,10 +174,5 @@ public abstract class MonsterBase : MonoBehaviourPun
     {
 
         Debug.Log($"{name} performed kill on {obj.name}");
-    }
-
-    protected virtual void OnTouchDoor() 
-    {
-        
     }
 }
