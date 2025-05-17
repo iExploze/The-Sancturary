@@ -195,4 +195,15 @@ public abstract class MonsterBase : MonoBehaviourPun
 
         Debug.Log($"{name} performed kill on {obj.name}");
     }
+
+    public virtual void OnDoorTouch() 
+    {
+        patrolIndex++;
+        // If reached the last point, go back to the first point
+        if (patrolIndex >= patrolPoints.Length)
+        {
+            patrolIndex = 0;
+        }
+        currentState = MonsterState.Chill;
+    }
 }
