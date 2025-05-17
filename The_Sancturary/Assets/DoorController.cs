@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class DoorController : MonoBehaviour
+public class DoorController : MonoBehaviourPun
 {
     [SerializeField] private GameObject doorTop;
     [SerializeField] private GameObject doorBottom;
@@ -52,14 +53,21 @@ public class DoorController : MonoBehaviour
         }
     }
 
+    // this actually does the open/close
+    [PunRPC]
+    public void ToggleDoorRPC()
+    {
+        opened = !opened;
+        moveProgress = 0f;
+        isMoving = true;
+    }
+
     public void ToggleDoor()
     {
-        if (!isMoving)
-        {
-            opened = !opened;
-            isMoving = true;
-            moveProgress = 0f;
-        }
+        if (PhotonNetwork.InRoom)
+            photonView.RPC(nameof(ToggleDoorRPC), RpcTarget.AllBuffered);
+        else
+            ToggleDoorRPC();
     }
 
     public bool IsOpen()

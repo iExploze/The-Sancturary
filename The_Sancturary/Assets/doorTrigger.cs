@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class doorTrigger : MonoBehaviour
@@ -24,11 +25,14 @@ public class doorTrigger : MonoBehaviour
         if (other.CompareTag("Monster"))
         {
             MonsterBase monster = other.GetComponent<MonsterBase>();
-            if (!doorController.IsOpen() && Time.time >= lastHitTime + doorHitCooldown)
+            if (!PhotonNetwork.InRoom || PhotonNetwork.IsMasterClient)
             {
-                Debug.Log("Monster hit the door!");
-                monster.OnDoorTouch();
-                lastHitTime = Time.time;  // Update the last hit time
+                if (!doorController.IsOpen() && Time.time >= lastHitTime + doorHitCooldown)
+                {
+                    Debug.Log("Monster hit the door!");
+                    monster.OnDoorTouch();
+                    lastHitTime = Time.time;  // Update the last hit time
+                }
             }
         }
     }
