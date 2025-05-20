@@ -55,7 +55,6 @@ public class FlashlightController : MonoBehaviourPun
         {
             Debug.DrawRay(origin, forward * hit.distance, Color.green);  // show the hit portion
             light2D.pointLightOuterRadius = hit.distance + addedDistance;
-            Debug.Log($"Hit '{hit.collider.name}' at {hit.distance}");
         }
         else
         {
