@@ -79,4 +79,6 @@ public class PlayerMovement : MonoBehaviourPun
     {
         return photonView.OwnerActorNr;
     }
+
+
 }

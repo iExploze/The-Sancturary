@@ -9,7 +9,11 @@ public class EndSceneController : MonoBehaviour
 
     void Start()
     {
-        int survived = PlayerPrefs.GetInt(survivalPlayerPrefKey, -1);
+
+        
+        int survived = PlayerPrefs.GetInt("Survived");   // default = not-survived
+        
+
 
         if (survived == 1)
         {

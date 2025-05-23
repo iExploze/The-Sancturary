@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerKiller : MonoBehaviourPun
 {
@@ -11,9 +12,11 @@ public class PlayerKiller : MonoBehaviourPun
     [SerializeField] private GameObject playersprite;
     [SerializeField] private GameObject playerassets;
     [SerializeField] private GameObject ghost;
+    [SerializeField] private Button exitButton;
     void Start()
     {
         playerMovement = GetComponent<PlayerMovement>();
+        exitButton.gameObject.SetActive(false);
 
         // Check if the script is running on the local player
         if (PhotonNetwork.IsConnected && !photonView.IsMine)
@@ -46,6 +49,7 @@ public class PlayerKiller : MonoBehaviourPun
         playersprite.SetActive(false);
         playerassets.SetActive(false);
         ghost.SetActive(true);
+        exitButton.gameObject.SetActive(true);
 
         // Notify all other players about the kill via RPC
         if (PhotonNetwork.IsConnected) 
